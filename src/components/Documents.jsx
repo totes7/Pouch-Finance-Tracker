@@ -5,7 +5,7 @@ function Documents() {
     <>
     <div className="container">
       <h5 className="title">All Documents</h5>
-      <div className="card">
+      <div className="card medium">
         <div className="card-body">
         <i className="fa-solid fa-receipt"></i>
         <h5 className="card-title">iPhone 15</h5>
@@ -16,7 +16,7 @@ function Documents() {
       </div>
     </div>
     <div className="container">
-      <div className="card">
+      <div className="card medium">
         <div className="card-body">
         <i className="fa-solid fa-briefcase"></i>
         <h5 className="card-title">Salary</h5>
