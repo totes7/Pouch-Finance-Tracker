@@ -15,7 +15,9 @@
   --secondary-text-color: #1e1e1e55;
   --disabled-text-color: #608972;
   --red-text-color: #FF5F5F;
-  --border-color: #1e1e1e55;
+  --border-color: #BBBBBB;
+  --container-border-radius: 20px;
+  --button-border-radius: 6px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -56,12 +58,10 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
