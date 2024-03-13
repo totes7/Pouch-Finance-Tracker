@@ -19,6 +19,10 @@
   --container-border-radius: 20px;
   --button-border-radius: 6px;
 
+  ::placeholder {
+    color: var(--border-color)
+  }
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
