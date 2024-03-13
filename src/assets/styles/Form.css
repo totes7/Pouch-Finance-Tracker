@@ -1,0 +1,120 @@
+p {
+    margin: 0 !important;
+}
+
+.container.credit-card,
+.container.transaction-form {
+    border-radius: var(--container-border-radius);
+    background-color: var(--dark-green);
+    max-width: 300px;
+    height: auto;
+    padding: 2rem;
+}
+
+.container.credit-card h2,
+.container.transaction-form h2 {
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.container.credit-card {
+    margin-bottom: 20px;
+    padding: 1rem;
+}
+
+
+.credit-card-container {
+    padding: 10px;
+    border-radius: var(--button-border-radius);
+    background: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 15px;
+
+}
+
+.credit-card-number h5 {
+    color: #ffffff;
+    margin: 0;
+}
+
+.credit-card-container .logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.8rem;
+}
+
+
+
+.details-container {
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.expiry,
+.name {
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}
+
+.date,
+.full-name {
+    color: var(--primary-text-color);
+}
+
+.account-details {
+    margin-top: 10px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    
+}
+
+.account-details h3 {
+    font-size: 1rem;
+}
+
+.balance,
+.savings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container.transaction-form form {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+
+.container.transaction-form input,
+.container.transaction-form select {
+    padding-left: 10px;
+    height: 38px;
+    border: none;
+    color: var(--primary-text-color);
+    border-radius: var(--button-border-radius);
+}
+
+
+.container.transaction-form label {
+    text-align: left;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.fa-cc-visa {
+    color: #0D4391
+}
+
+

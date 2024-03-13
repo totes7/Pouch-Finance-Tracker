@@ -15,6 +15,7 @@
 }
 
 .form-container input {
+    padding-left: 10px;
     height: 38px;
     border: none;
     color: var(--primary-text-color);

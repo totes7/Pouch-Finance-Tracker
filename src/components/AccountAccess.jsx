@@ -31,9 +31,9 @@ function LoginForm({ toggleForm }) {
       {/* TODO: add onSubmit="" to form */}
       <form>
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" autoComplete="username" required/>
+        <input type="text" id="username" placeholder='E.g. Steve Jobs' autoComplete="username" required/>
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" autoComplete="current-password" required />
+        <input type="password" id="password" placeholder='************' autoComplete="current-password" required />
         <button type="submit">Login</button>
       </form>
       <button className="switch-form" onClick={toggleForm}>Not got an account?</button>
