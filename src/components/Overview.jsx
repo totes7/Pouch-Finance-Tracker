@@ -1,12 +1,14 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from './Form';
 
 const Overview = () => {
   const userName = 'John';
   const currentDate = dayjs().format('ddd D MMMM YYYY');
 
   return (
+    <div className="container">
     <div className="container-fluid bg-light p-3">
       <div className="row">
         <div className="col">
@@ -16,6 +18,8 @@ const Overview = () => {
           <p className="m-0">{currentDate}</p>
         </div>
       </div>
+    </div>
+      <Form />
     </div>
   );
 };
