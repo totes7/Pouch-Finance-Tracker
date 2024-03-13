@@ -1,0 +1,40 @@
+.form-container {
+    border-radius: var(--container-border-radius);
+    background-color: var(--dark-green);
+    min-width: 350px;
+    padding: 2rem;
+}
+
+.form-container form {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+}
+
+.form-container input {
+    padding-left: 10px;
+    height: 38px;
+    border: none;
+    color: var(--primary-text-color);
+    border-radius: var(--button-border-radius);
+}
+
+.form-container label {
+    text-align: left;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+form button  {
+    margin: 10px 0;
+    background-color: var(--light-green);
+    border-radius: var(--button-border-radius);
+}
+
+.switch-form {
+    background-color: transparent;
+    color: #ffffff;
+}
