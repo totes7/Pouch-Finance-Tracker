@@ -1,6 +1,28 @@
 import React, { useState } from 'react';
 import '../assets/styles/Form.css';
-import { TransactionTypes } from '../utils/TransactionTypes'
+import { TransactionTypes } from '../utils/TransactionTypes';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { collection, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyB1lhXzkwzslSudFPed58CVXr9i6JRLNqE',
+  authDomain: "pouch-90c28.firebaseapp.com",
+  projectId: "pouch-90c28",
+  storageBucket: "pouch-90c28.appspot.com",
+  messagingSenderId: "1055575224621",
+  appId: "1:1055575224621:web:f7bdc9b4e8b5c7b46b63a4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Get a Firestore instance
+const firestore = getFirestore();
+
 
 function Form() {
   return (
@@ -101,16 +123,51 @@ function CreditCard() {
 
 
 function TransactionForm() {
+  const [formData, setFormData] = useState({
+    title: '',
+    amount: '',
+    type: ''
+  });
+
+ 
+  const firestore = getFirestore();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Reference the 'transactions' collection
+      const transactionsCollection = collection(firestore, 'transactions');
+
+      // Add a new document to the 'transactions' collection with the form data
+      await addDoc(transactionsCollection, formData);
+
+      console.log('Transaction added successfully!');
+      // Reset the form fields after submission
+      setFormData({
+        title: '',
+        amount: '',
+        type: ''
+      });
+    } catch (error) {
+      console.error('Error adding transaction: ', error);
+    }
+  };
+
   return (
     <div className='container transaction-form'>
       <h2>NEW TRANSACTION</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
-        <input type="text" id="title" name="title" placeholder='E.g. Phone Bill' autoComplete="title" required step="0.01"/>
+        <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} placeholder='E.g. Phone Bill' autoComplete="title" required />
         <label htmlFor="amount">Amount</label>
-        <input type="number" id="amount" name="amount" placeholder='$' autoComplete="username" required />
+        <input type="number" id="amount" name="amount" value={formData.amount} onChange={handleChange} placeholder='$' autoComplete="username" required />
         <label htmlFor="type">Type</label>
-        <select id="type" name="type" required>
+        <select id="type" name="type" value={formData.type} onChange={handleChange} required>
           <option disabled value="">Select a transaction type</option>
           {TransactionTypes.map((type) => (
             <option key={type.id} value={type.title.toLowerCase()}>
@@ -118,10 +175,12 @@ function TransactionForm() {
             </option>
           ))}
         </select>
+
         <button type="submit">Add Transaction</button>
       </form>
     </div>
   );
 }
+
 
 export default Form;
