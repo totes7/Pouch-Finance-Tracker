@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Pie } from "react-chartjs-2";
+import DoughnutChart from "./DoughnutChart";
+// import { PieChart } from "./PieChart";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 
-function Graphs({chartData}) {
-  return ( <Doughnut data={chartData}/>
-    // <>
-    // <div className="container">
-    //   <div className="card-medium">
-    //     <div className="card-body">
-
-
-    //     </div>
-    //     <h5 className="card-title">Total Income</h5>
-    //   </div>
-    // </div>
-    // </>
-  )
+function Graphs() {
+    <>
+    <div className="container">
+      <div className="card-medium">
+        <div className="card-body">
+          <DoughnutChart />
+        </div>
+        <h5 className="card-title text-dark">Total Income</h5>
+      </div>
+    </div>
+    </>
 }
 
-export default Graphs
+export default Graphs;
