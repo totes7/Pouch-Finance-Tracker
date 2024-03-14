@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import './App.css';
-import AccountAccess from './components/AccountAccess';
-import Form from './components/Form'
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import AccountAccess from "./components/AccountAccess";
+
+import Overview from "./components/Overview";
 import Documents from './components/Documents'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Overview />} />{" "}
+          {/* Define a route for the Overview component */}
+        </Routes>
+      </Router>
       {/* <AccountAccess /> */}
-      {/* <Form /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

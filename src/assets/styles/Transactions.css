@@ -1,0 +1,29 @@
+.container-fluid {
+  border: solid 1px rgb(176, 170, 170);
+  border-radius: 20px;
+  margin: 10px;
+  padding: 20px;
+}
+
+.title,
+.transaction-type,
+.documents-uploaded,
+.amount,
+.delete-button {
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+.col {
+  flex-grow: 1;
+}
+i {
+  padding: 10px;
+  width: 40px;
+  background-color: rgb(181, 218, 181);
+  border-radius: 10px;
+}
+.delete-button {
+  color: black !important;
+}

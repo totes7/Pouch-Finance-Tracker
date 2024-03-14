@@ -46,8 +46,8 @@ function CreditCard() {
     <div className='container credit-card'>
       <div className="credit-card-container">
         <div className='logo-container'>
-          <i class="fa-solid fa-coins"></i>
-          <i class="fa-brands fa-cc-visa"></i>
+          <i className="fa-solid fa-coins"></i>
+          <i className="fa-brands fa-cc-visa"></i>
         </div>
         <div className="credit-card-number">
           {isCreditCardEditing ? (
@@ -111,7 +111,7 @@ function TransactionForm() {
         <input type="number" id="amount" name="amount" placeholder='$' autoComplete="username" required />
         <label htmlFor="type">Type</label>
         <select id="type" name="type" required>
-          <option disabled selected="selected">Select a transaction type</option>
+          <option disabled value="">Select a transaction type</option>
           {TransactionTypes.map((type) => (
             <option key={type.id} value={type.title.toLowerCase()}>
               {type.title}
