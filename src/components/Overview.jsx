@@ -32,7 +32,7 @@ const Overview = () => {
           </div>
 
           
-          <div className="col-md-6 mx-auto">
+          <div className="col-md-8 mx-auto">
             
             <div className="row mb-3">
               <div className="col-md-12">
