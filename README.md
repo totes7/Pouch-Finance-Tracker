@@ -1,6 +1,6 @@
 # Pouch-Finance-Tracker
 
-The Personal Finance App "Pouch" is a web application designed to help individuals manage their finances effectively. Built using React, this app provides users with a convenient platform to track their Income, Expenses, Savings, and Transactions.
+The Pouch-Finance-Tracker is a web application designed to help individuals manage their finances effectively. Built using React, this app provides users with a convenient platform to track their Income, Expenses, Savings, and Transactions.
 
 Pouch aims to empower users to take control of their finances, make informed decisions, and achieve their financial goals. By providing intuitive features, insightful analytics, and user-friendly interfaces, the app serves as a valuable tool for individuals seeking to improve their financial well-being.
 
