@@ -24,7 +24,8 @@ export const data = {
                 'rgba(105, 176, 238, 1)',
                 'rgba(137, 209, 170, 1)'
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            hoverOffset: 40,
         },
     ]
 }

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
 import Transactions from "./Transactions";
-
+import Graphs from "./Graphs";
 
 const Overview = () => {
   const userName = "John";
@@ -23,6 +23,7 @@ const Overview = () => {
       </div>
       <Form />
       <Transactions />
+      <Graphs />
     </div>
   );
 };

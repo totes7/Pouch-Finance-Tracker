@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import DoughnutChart from "./DoughnutChart";
-// import { PieChart } from "./PieChart";
-
-
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-
+import React, { useState } from "react";
+import { DoughnutChart } from "./DoughnutChart";
+import { PieChart } from "./PieChart";
 
 function Graphs() {
+  return (
     <>
-    <div className="container">
-      <div className="card-medium">
-        <div className="card-body">
-          <DoughnutChart />
+      <div className="container">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title text-dark">Total Income</h5>
+            <PieChart />
+          </div>
         </div>
-        <h5 className="card-title text-dark">Total Income</h5>
       </div>
-    </div>
+      <div className="container">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title text-dark">Total Expenses</h5>
+            <DoughnutChart />
+          </div>
+        </div>
+      </div>
     </>
+  );
 }
 
 export default Graphs;
