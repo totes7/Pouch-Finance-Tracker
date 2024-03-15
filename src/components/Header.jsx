@@ -17,9 +17,9 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse class="right-aligned">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Overview</Nav.Link>
-            <Nav.Link href="#link">Transactions</Nav.Link>
-            <Nav.Link href="#link">Documents</Nav.Link>
+            <Nav.Link href="#">Overview</Nav.Link>
+            <Nav.Link href="#">Transactions</Nav.Link>
+            <Nav.Link href="#">Documents</Nav.Link>
             <Button variant="success">Logout</Button>{' '}
             
           </Nav>
