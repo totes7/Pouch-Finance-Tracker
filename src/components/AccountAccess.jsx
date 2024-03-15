@@ -3,7 +3,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./Form.jsx";
 import "../assets/styles/AccountAccess.css";
-import Logo from "./Logo";
+import { Logo, SecondaryLogo } from './Logo';
+
 
 function AccountAccess() {
   // State to manage which form to display
