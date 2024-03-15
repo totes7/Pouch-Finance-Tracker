@@ -5,16 +5,34 @@ import Form from "./Form";
 import Transactions from "./Transactions";
 import Header from "./Header";
 import Graphs from "./Graphs";
+import '../assets/styles/Overview.css'
 
 const Overview = () => {
   const userName = "Noly";
-  const currentDate = dayjs().format("ddd D MMMM YYYY");
+  const currentDate = dayjs().format("ddd D MMMM, YYYY");
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="container">
-        <div className="container-fluid bg-light p-3">
+        <div className="welcome-header">
+          <p>Welcome back, {userName}!</p>
+          <p>{currentDate}</p>
+        </div>
+        <div className="components-container">
+          <div className="transaction-form-container">
+            <Form />
+          </div>
+          <div className="graphs-and-transactions-container">
+          <Graphs />
+          <Transactions />
+          </div>
+        </div>
+
+
+
+
+        {/* <div className="">
           <div className="row">
             <div className="col">
               <p className="m-0">Welcome back, {userName}!</p>
@@ -47,7 +65,7 @@ const Overview = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Additional Content */}
       </div>
