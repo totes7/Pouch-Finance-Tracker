@@ -5,6 +5,7 @@ import { TransactionTypes } from "../utils/TransactionTypes";
 import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,7 +22,10 @@ const app = initializeApp(firebaseConfig);
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-export { db, firebaseApp };
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+
+export { db, firebaseApp, auth };
 
 // Get a Firestore instance
 const firestore = getFirestore();
