@@ -28,9 +28,9 @@ function Header() {
           </ul>
         </nav>
         <div className="user-wrapper">
-          <button><i class="fa-solid fa-user"></i></button>
+          <button><i className="fa-solid fa-user"></i></button>
 
-          <button><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+          <button><i className="fa-solid fa-arrow-right-from-bracket"></i></button>
         </div>
       </div>
 
