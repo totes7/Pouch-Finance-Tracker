@@ -5,23 +5,18 @@ import { TransactionTypes } from "../utils/TransactionTypes";
 import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyB1lhXzkwzslSudFPed58CVXr9i6JRLNqE",
-  authDomain: "pouch-90c28.firebaseapp.com",
-  projectId: "pouch-90c28",
-  storageBucket: "pouch-90c28.appspot.com",
-  messagingSenderId: "1055575224621",
-  appId: "1:1055575224621:web:f7bdc9b4e8b5c7b46b63a4",
-};
+import { getAuth } from "firebase/auth";
+import firebaseConfig from "../utils/firebaseConfig"; 
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-export { db, firebaseApp };
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+
+export { db, firebaseApp, auth };
 
 // Get a Firestore instance
 const firestore = getFirestore();
@@ -144,13 +139,18 @@ function TransactionForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Reference the 'transactions' collection
-      const transactionsCollection = collection(firestore, "transactions");
+     // Get the currently logged-in user's UID
+     const auth = getAuth();
+     const currentUser = auth.currentUser;
+     const userUID = currentUser.uid;
 
-      // Add a new document to the 'transactions' collection with the form data
-      await addDoc(transactionsCollection, formData);
+     // Reference the 'transactions' collection under the user's UID
+     const userTransactionsCollection = collection(firestore, `users/${userUID}/transactions`);
 
-      console.log("Transaction added successfully!");
+     // Add a new document to the user's 'transactions' collection with the form data
+     await addDoc(userTransactionsCollection, formData);
+
+     console.log("Transaction added successfully!");
       // Reset the form fields after submission
       setFormData({
         title: "",

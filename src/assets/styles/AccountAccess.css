@@ -1,3 +1,11 @@
+.container-box {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .form-container {
     border-radius: var(--container-border-radius);
     background-color: var(--dark-green);

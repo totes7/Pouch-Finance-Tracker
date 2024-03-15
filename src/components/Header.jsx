@@ -1,36 +1,41 @@
-import React from 'react'
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import '../assets/styles/Header.css';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
+import { Logo, SecondaryLogo } from "./Logo";
 
 function Header() {
   return (
+    <div className='header-wrapper'>
+      <div className="header">     
+          <SecondaryLogo />
+        <nav className="nav-wrapper">
+          <ul className='nav-list'>
+            <li className='nav-item'>
+              <NavLink to='/' className="nav-link" activeClassName="active">
+               Overview
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink to='/transactions' className="nav-link" activeClassName="active">
+              Transactions
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink to='/documents' className="nav-link" activeClassName="active">
+               Documents
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+        <div className="user-wrapper">
+          <button><i className="fa-solid fa-user"></i></button>
 
-    <>
-      
-      <Navbar expand="xl" bg="myHeader" variant="dark" fixed="top" collapseOnSelect >
-      <Container>
-        <Navbar.Brand href="#home">Pouch</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse class="right-aligned">
-          <Nav className="me-auto">
-            <Nav.Link href="#">Overview</Nav.Link>
-            <Nav.Link href="#">Transactions</Nav.Link>
-            <Nav.Link href="#">Documents</Nav.Link>
-            <Button variant="success">Logout</Button>{' '}
-            
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-    </>
+          <button><i className="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </div>
+      </div>
 
-
-
-  );
+    </div>
+  )
 }
 
 export default Header
