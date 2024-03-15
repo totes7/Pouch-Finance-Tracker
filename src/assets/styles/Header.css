@@ -1,0 +1,63 @@
+.header-wrapper {
+    width: 100%;
+    height: 86px;
+    margin-top: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1420px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.nav-wrapper ul {
+    list-style-type: none;
+    margin-bottom: 0;
+}
+
+.nav-list {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+
+.nav-item {
+    color: var(--border-color);
+}
+
+.active {
+    color: var(--dark-green) !important;
+}
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-wrapper button {
+    background-color: transparent;
+    padding: 0 !important;
+}
+
+.user-wrapper i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(64, 64, 69, .1);
+    border-radius: 100%;
+    transition: all 0.3s ease; /* Smooth transition for border color */
+}
+
+.user-wrapper i:hover {
+    color: var(--light-green);
+    border-color:  var(--dark-green) ; /* New border color on hover */
+}
