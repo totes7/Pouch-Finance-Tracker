@@ -16,3 +16,10 @@
     flex-direction: row;
     gap: 20px;
 }
+
+
+.transaction-form-container,
+.graphs-and-transactions-container {
+    background-color: #F8F8F8;
+}
+
