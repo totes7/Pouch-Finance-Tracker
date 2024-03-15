@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
-import '../assets/styles/AccountAccess.css'
-import Logo from './Logo';
+import React, { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./Form.jsx";
+import "../assets/styles/AccountAccess.css";
+import Logo from "./Logo";
 
 function AccountAccess() {
   // State to manage which form to display
@@ -25,38 +27,120 @@ function AccountAccess() {
 
 // Login form component
 function LoginForm({ toggleForm }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const logIn = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className='form-container'>
+    <div className="container-box">
+    <div className="form-container">
       <Logo />
       {/* TODO: add onSubmit="" to form */}
-      <form>
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" placeholder='E.g. Steve Jobs' autoComplete="username" required/>
+      <form onSubmit={logIn}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          placeholder="E.g. SteveJobs@email.com"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder='************' autoComplete="current-password" required />
+        <input
+          type="password"
+          id="password"
+          placeholder="************"
+          autoComplete="current-password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Login</button>
       </form>
-      <button className="switch-form" onClick={toggleForm}>Not got an account?</button>
+      <button className="switch-form" onClick={toggleForm}>
+        Not got an account?
+      </button>
+    </div>
     </div>
   );
 }
 
 // Sign up form component
 function SignUpForm({ toggleForm }) {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signUp = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        setEmail("");
+        setPassword("");
+        setFullName("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <div className='form-container'>
-     <Logo />
-       {/* TODO: add onSubmit="" to form */}
-      <form>
+    <div className="container-box">
+
+  
+    <div className="form-container">
+      <Logo />
+      {/* TODO: add onSubmit="" to form */}
+      <form onSubmit={signUp}>
         <label htmlFor="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" autoComplete="name" required />
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" autoComplete="username" required />
+        <input
+          type="text"
+          id="fullname"
+          name="fullname"
+          autoComplete="name"
+          required
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+        />
+        <label htmlFor="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" autoComplete="new-password" required  />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autoComplete="new-password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Sign Up</button>
       </form>
-      <button className="switch-form" onClick={toggleForm}>Already have an account?</button>
+      <button className="switch-form" onClick={toggleForm}>
+        Already have an account?
+      </button>
+    </div>
     </div>
   );
 }
