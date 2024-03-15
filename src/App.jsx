@@ -16,9 +16,11 @@ function App() {
           <Route exact path="/" element={<Overview />} />
           <Route path="/transactions" element={<Transactions/>} />
           <Route path="/documents" element={<Documents />} />
+          {/* <Route exact path="/" element={<Overview />} /> */}
+          {/* Define a route for the Overview component */}
         </Routes>
       </Router>
-      {/* <AccountAccess /> */}
+      <AccountAccess />
     </>
   );
 }
