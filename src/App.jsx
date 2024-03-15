@@ -10,11 +10,11 @@ function App() {
     <>
       <Router>
         <Routes>
-          {/* <Route exact path="/" element={<Overview />} />{" "} */}
+          <Route exact path="/" element={<Overview />} />
           {/* Define a route for the Overview component */}
         </Routes>
       </Router>
-      <AccountAccess />
+      {/* <AccountAccess /> */}
     </>
   );
 }
