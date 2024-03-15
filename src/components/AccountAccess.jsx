@@ -42,6 +42,7 @@ function LoginForm({ toggleForm }) {
   };
 
   return (
+    <div className="container-box">
     <div className="form-container">
       <Logo />
       {/* TODO: add onSubmit="" to form */}
@@ -72,6 +73,7 @@ function LoginForm({ toggleForm }) {
         Not got an account?
       </button>
     </div>
+    </div>
   );
 }
 
@@ -96,6 +98,9 @@ function SignUpForm({ toggleForm }) {
   };
 
   return (
+    <div className="container-box">
+
+  
     <div className="form-container">
       <Logo />
       {/* TODO: add onSubmit="" to form */}
@@ -135,6 +140,7 @@ function SignUpForm({ toggleForm }) {
       <button className="switch-form" onClick={toggleForm}>
         Already have an account?
       </button>
+    </div>
     </div>
   );
 }
