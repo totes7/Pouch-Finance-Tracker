@@ -1,25 +1,48 @@
-.container {
+.overview-wrapper {
+    margin: 2rem 0;
     width: 100%;
     display: flex;
+    justify-content: center;
+}
+
+.overview-content {
+    width: 100%;
+    max-width: 1420px; 
+    display: flex;
     flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
     gap: 20px;
 }
 
-.welcome-header {
+
+.welcome-wrapper {
+    width: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
 }
 
-.components-container {
+.components-wrapper {
+    width: 100%;
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
 
 
-.transaction-form-container,
-.graphs-and-transactions-container {
+.form-wrapper,
+.graphs-wrapper{
+    border-radius: 20px;
     background-color: #F8F8F8;
+    padding: 2rem;
 }
 
+.form-wrapper {
+    width: 30%;
+}
+
+.graphs-wrapper {
+    width: 70% !important;
+}
