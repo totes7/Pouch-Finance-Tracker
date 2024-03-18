@@ -25,7 +25,7 @@ export const data = {
         "rgba(137, 209, 170, 1)",
       ],
       borderWidth: 1,
-      hoverOffset: 40,
+      hoverOffset: 10,
     },
   ],
 };
@@ -33,8 +33,8 @@ export const data = {
 export const options = {
   maintainAspectRatio: false,
   legend: {
-    position: "bottom",
-  },
+    position: "bottom"
+  }
 };
 
 export function DoughnutChart() {

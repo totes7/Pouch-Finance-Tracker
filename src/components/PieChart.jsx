@@ -21,7 +21,7 @@ export const data = {
         "rgba(26, 78, 47, 0.5)",
       ],
       borderWidth: 1,
-      hoverOffset: 40,
+      hoverOffset: 10,
     },
   ],
 };
@@ -30,18 +30,13 @@ export const options = {
   maintainAspectRatio: false,
   legend: {
     position: "bottom",
-  }
+  },
 };
 
 export function PieChart() {
   return (
     <div className="pie canvas-container">
-      <Pie
-        data={data}
-        width={50}
-        height={150}
-        options={options}
-      />
+      <Pie options={options} data={data} width={50} height={150} />
     </div>
   );
 }

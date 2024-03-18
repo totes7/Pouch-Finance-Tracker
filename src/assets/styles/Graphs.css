@@ -6,3 +6,7 @@
 .card-title {
     color: var(--border-color);
 }
+
+.card-body {
+    margin: 0px !important;
+}
