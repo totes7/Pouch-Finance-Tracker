@@ -1,37 +1,37 @@
 export const TransactionTypes = [
   {
     id: 1,
-    title: "shopping",
+    title: "Shopping",
     icon: '<i class="fa-solid fa-basket-shopping"></i>',
   },
   {
     id: 2,
-    title: "food and drink",
+    title: "Food and Drink",
     icon: '<i class="fa-solid fa-utensils"></i>',
   },
   {
     id: 3,
-    title: "entertainment",
+    title: "Entertainment",
     icon: '<i class="fa-solid fa-headphones"></i>',
   },
   {
     id: 4,
-    title: "bills",
+    title: "Bills",
     icon: '<i class="fa-solid fa-receipt"></i>',
   },
   {
     id: 5,
-    title: "savings",
+    title: "Savings",
     icon: '<i class="fa-solid fa-piggy-bank"></i>',
   },
   {
     id: 6,
-    title: "income",
+    title: "Income",
     icon: '<i class="fa-solid fa-briefcase"></i>',
   },
   {
     id: 7,
-    title: "savings",
+    title: "Savings",
     icon: '<i class="fa-solid fa-briefcase"></i>',
   },
 ];

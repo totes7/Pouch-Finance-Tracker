@@ -1,33 +1,45 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { firestore, auth } from "../utils/firebaseConfig";
 
-function Documents() {
-  return (
-    <>
-    <div className="container">
-      <h5 className="title">All Documents</h5>
-      <div className="card medium">
-        <div className="card-body">
-        <i className="fa-solid fa-receipt"></i>
-        <h5 className="card-title">iPhone 15</h5>
-        <p className="card-text">Bills</p>
-        <button type="button" className="btn btn-success">View</button>
-        <button type="button" className="btn btn-danger">Delete</button>
-        </div>
-      </div>
-    </div>
-    <div className="container">
-      <div className="card medium">
-        <div className="card-body">
-        <i className="fa-solid fa-briefcase"></i>
-        <h5 className="card-title">Salary</h5>
-        <p className="card-text">Income</p>
-        <button type="button" className="btn btn-success">View</button>
-        <button type="button" className="btn btn-danger">Delete</button>
-        </div>
-      </div>
-    </div>
-  </>
-  )
+function Docs() {
+  // const [documents, setDocuments] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchDocuments = async () => {
+  //     try {
+  //       const currentUser = auth.currentUser;
+  //       const userUID = currentUser.uid;
+        
+  //       const documentsRef = firestore.collection(`users/${userUID}/transactions`);
+  //       const snapshot = await documentsRef.get();
+  //       const documentsData = snapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data()
+  //       }));
+  //       setDocuments(documentsData);
+  //     } catch (error) {
+  //       console.error("Error fetching documents: ", error);
+  //     }
+  //   };
+
+  //   fetchDocuments();
+  // }, []);
+
+  // return (
+  //   <div>
+  //     <h2>Documents</h2>
+  //     <ul>
+  //       {documents.map((document) => (
+  //         <li key={document.id}>
+  //           <p>Title: {document.title}</p>
+  //           <p>Type: {document.type}</p>
+  //           <p>PDF URL: {document.pdfURL}</p>
+  //           {/* Add additional display logic here */}
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   </div>
+  // );
 }
 
-export default Documents
+export default Docs;

@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { TransactionTypes } from "../utils/TransactionTypes";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { firestore } from "./Form";
-import { db } from "./Form";
+import { auth, db } from "../utils/firebaseConfig";
 import "../assets/styles/Transactions.css";
+import { getFirestore } from "firebase/firestore";
+// const db = getFirestore(firebaseApp);
 
 function Transactions() {
   const [transactionData, setTransactionData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const user = auth.currentUser;
 
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
-        const transactionsCollection = collection(firestore, "transactions");
+        if (!user) {
+          throw new Error("User is not authenticated.");
+        }
+
+        const usersCollection = collection(db, "users");
+        const loggedInUserDocRef = doc(usersCollection, user.uid);
+        const transactionsCollection = collection(
+          loggedInUserDocRef,
+          "transactions"
+        );
         const snapshot = await getDocs(transactionsCollection);
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -20,21 +31,25 @@ function Transactions() {
         }));
         setTransactionData(data);
       } catch (error) {
-        console.error("Error fetching transaction data:", error);
+        console.log("Error fetching transaction data:");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchTransactionData();
-  }, []);
+  }, [db, user]);
 
   const handleDelete = async (id) => {
     try {
-      const transactionDocRef = doc(firestore, "transactions", id);
+      const transactionsCollection = collection(
+        db,
+        `users/${user.uid}/transactions`
+      );
+      const transactionDocRef = doc(transactionsCollection, id);
       await deleteDoc(transactionDocRef);
-      setTransactionData(
-        transactionData.filter((transaction) => transaction.id !== id)
+      setTransactionData((prevData) =>
+        prevData.filter((transaction) => transaction.id !== id)
       );
     } catch (error) {
       console.error("Error deleting transaction:", error);
@@ -42,7 +57,7 @@ function Transactions() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid transaction">
       {isLoading ? (
         <h2>Loading...</h2>
       ) : transactionData.length === 0 ? (
@@ -55,34 +70,30 @@ function Transactions() {
 
           if (transactionType) {
             return (
-              <div key={transaction.id}>
-                <div className="row mb-3 w-100">
-                  <div className="col mb-2">
-                    {transactionType && (
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: transactionType.icon,
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="col mb-2">
-                    <div className="title">{transaction.title}</div>
-                  </div>
-                  <div className="col mb-2">
-                    <div className="transaction-type">{transaction.type}</div>
-                  </div>
-                  <div className="col mb-2">
-                    <div className="amount">${transaction.amount}</div>
-                  </div>
-                  <div className="col mb-2">
-                    <button
-                      className="delete-button btn btn-danger"
-                      onClick={() => handleDelete(transaction.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+              <div key={transaction.id} className="row mb-3">
+                <div className="col mb-2">
+                  {transactionType && (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: transactionType.icon,
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="col mb-2">
+                  <div className="title">{transaction.title}</div>
+                </div>
+                <div className="col mb-2">
+                  <div className="transaction-type">{transaction.type}</div>
+                </div>
+                <div className="col mb-2">
+                  <div className="amount">${transaction.amount}</div>
+                </div>
+                <div className="col mb-2">
+                  <i
+                    className="fa-solid fa-delete-left"
+                    onClick={() => handleDelete(transaction.id)}
+                  ></i>
                 </div>
               </div>
             );

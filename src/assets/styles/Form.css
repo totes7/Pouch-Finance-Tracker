@@ -25,7 +25,7 @@ p {
 
 .credit-card-container {
     padding: 10px;
-    border-radius: var(--button-border-radius);
+    border-radius: 20px;
     background: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
     display: flex;
     flex-direction: column;
@@ -45,8 +45,6 @@ p {
     justify-content: space-between;
     font-size: 1.8rem;
 }
-
-
 
 .details-container {
     font-size: 0.7rem;
@@ -116,5 +114,50 @@ p {
 .fa-cc-visa {
     color: #0D4391
 }
+
+/* Hide the default arrow */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Add padding to accommodate the custom arrow */
+    padding-right: 20px; 
+    /* Use the custom arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="16" height="16" stroke="%23204F36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+  }
+ .fa-solid.fa-angle-down {
+    font-size: 12px;
+  }
+
+  /* Hide the original file input */
+input[type="file"] {
+    display: none;
+  }
+  
+  /* Style the container */
+  .file-input-container {
+    position: relative;
+  }
+  
+  /* Style the label to resemble a button */
+  .file-input-label {
+    width: 100%;
+    display: inline-block;
+    font-weight: 400 !important;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    color: var(--border-color) !important;
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  /* Style the label when hovering */
+  .file-input-label:hover {
+    background-color: #E1F2E9;
+  }
+  
 
 
