@@ -39,6 +39,5 @@
 }
 
 .icons-wrapper i:hover {
-    color: var(--light-green);
     border-color:  var(--dark-green) ; /* New border color on hover */
 }

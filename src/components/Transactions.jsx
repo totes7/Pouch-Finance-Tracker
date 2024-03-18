@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { TransactionTypes } from "../utils/TransactionTypes";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { auth, firebaseApp } from "./Form";
+import { auth, db } from "../utils/firebaseConfig";
 import "../assets/styles/Transactions.css";
 import { getFirestore } from "firebase/firestore";
-const db = getFirestore(firebaseApp);
+// const db = getFirestore(firebaseApp);
 
 function Transactions() {
   const [transactionData, setTransactionData] = useState([]);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import AccountAccess from "./components/AccountAccess";
 import Header from "./components/Header";
@@ -9,20 +9,25 @@ import Transactions from "./components/Transactions";
 import Documents from "./components/Documents";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false); // State to track user login status
+
   return (
     <>
       <Router>
         <Header />
         <Routes>
           <Route exact path="/" element={<Overview />} />
-          <Route path="/transactions" element={<Transactions/>} />
+          <Route path="/transactions" element={<Transactions />} />
           <Route path="/documents" element={<Documents />} />
+          <Route path="/login" element={<AccountAccess  />} /> {/* Route for AccountAccess component */}
         </Routes>
         <Footer />
       </Router>
-      {/* <AccountAccess /> */}
     </>
   );
 }
+
+
+
 
 export default App;

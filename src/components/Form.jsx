@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import "../assets/styles/Form.css";
 import { TransactionTypes } from "../utils/TransactionTypes";
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { collection, addDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import firebaseConfig from "../utils/firebaseConfig"; 
+import { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDownloadURL, firestore } from "../utils/firebaseConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
-
-// Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
-
-export { db, firebaseApp, auth };
-
-// Get a Firestore instance
-const firestore = getFirestore();
-export { firestore };
 export function Form() {
   return (
     <div>
       <CreditCard />
       <TransactionForm />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 }
@@ -123,39 +120,88 @@ function CreditCard() {
 }
 
 function TransactionForm() {
+
+
   const [formData, setFormData] = useState({
     title: "",
     amount: "",
     type: "",
   });
 
-  const firestore = getFirestore();
+  // const firestore = firestore;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const label = document.getElementById('fileInputLabel');
+
+    if (file && file.type === "application/pdf") {
+      setFormData({ ...formData, pdfFile: file });
+      label.textContent = file.name; // Update the label with the selected file name
+    } else {
+      // Reset the file input if an invalid file is selected
+      e.target.value = null;
+      setFormData({ ...formData, pdfFile: null });
+      label.textContent = 'Choose a PDF file'; // Reset label text
+      alert("Please select a PDF file.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const emptyFormError = () => toast.error("Form cannot be empty");
+    const successMessage = () => toast.success("Your transaction was successfully added! 🎉");
+
     try {
-     // Get the currently logged-in user's UID
-     const auth = getAuth();
-     const currentUser = auth.currentUser;
-     const userUID = currentUser.uid;
+      const currentUser = auth.currentUser;
+      const userUID = currentUser.uid;
 
-     // Reference the 'transactions' collection under the user's UID
-     const userTransactionsCollection = collection(firestore, `users/${userUID}/transactions`);
+      // Check if any of the form fields are empty
+      if (!formData.title || !formData.amount || !formData.type) {
+        emptyFormError(); // Show toast notification
+        return; // Stop further execution
+      }
 
-     // Add a new document to the user's 'transactions' collection with the form data
-     await addDoc(userTransactionsCollection, formData);
+      // Reference the 'transactions' collection under the user's UID
+      const userTransactionsCollection = collection(
+        firestore,
+        `users/${userUID}/transactions`
+      );
 
-     console.log("Transaction added successfully!");
+      let pdfURL = ""; // Initialize variable to store download URL
+
+      // Check if pdfFile is present and upload it to Firebase Storage
+      if (formData.pdfFile) {
+        const storageRef = ref(storage, `users/${userUID}/pdfs/${formData.pdfFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, formData.pdfFile);
+        const snapshot = await uploadTask;
+        pdfURL = await getDownloadURL(snapshot.ref); // Get download URL
+      }
+
+      // Create a new object
+      const transactionData = {
+        title: formData.title,
+        amount: formData.amount,
+        type: formData.type,
+        pdfURL: pdfURL // Store download URL in Firestore
+      };
+
+      // Add a new document to the user's 'transactions' collection with the form data
+      await addDoc(userTransactionsCollection, transactionData);
+
+      // console.log("Transaction added successfully!");
+      successMessage();
+
       // Reset the form fields after submission
       setFormData({
         title: "",
         amount: "",
         type: "",
+        pdfFile: null,
       });
     } catch (error) {
       console.error("Error adding transaction: ", error);
@@ -175,7 +221,7 @@ function TransactionForm() {
           onChange={handleChange}
           placeholder="E.g. Phone Bill"
           autoComplete="title"
-          required
+
         />
         <label htmlFor="amount">Amount</label>
         <input
@@ -186,7 +232,7 @@ function TransactionForm() {
           onChange={handleChange}
           placeholder="$"
           autoComplete="username"
-          required
+
         />
         <label htmlFor="type">Type</label>
         <select
@@ -194,18 +240,29 @@ function TransactionForm() {
           name="type"
           value={formData.type}
           onChange={handleChange}
-          required
+
         >
           <option disabled value="">
             Select a transaction type
           </option>
           {TransactionTypes.map((type) => (
-            <option key={type.id} value={type.title.toLowerCase()}>
+            <option key={type.id} value={type.title}>
               {type.title}
             </option>
           ))}
         </select>
+        <label htmlFor="document">Document</label>
+        <div className="file-input-container">
+          <input
+            type="file"
+            id="pdfFile"
+            name="pdfFile"
+            accept="application/pdf"
+            onChange={handleFileChange}
 
+          />
+          <label htmlFor="pdfFile" className="file-input-label" id="fileInputLabel">Choose a PDF file</label>
+        </div>
         <button type="submit">Add Transaction</button>
       </form>
     </div>

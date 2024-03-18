@@ -15,8 +15,8 @@ const Overview = () => {
     <div className="overview-wrapper">
       <div className="overview-content">
         <div className="welcome-wrapper">
-          <p>Welcome back, {userName}!</p>
-          <p>{currentDate}</p>
+          <h1>Welcome back, {userName}!</h1>
+          <h1>{currentDate}</h1>
         </div>
         <div className="components-wrapper">
           <div className="form-wrapper">

@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "./Form.jsx";
+import { auth } from "../utils/firebaseConfig";
 import "../assets/styles/AccountAccess.css";
 import { Logo, SecondaryLogo } from './Logo';
 
