@@ -25,6 +25,9 @@ const Overview = () => {
           const userData = docSnapshot.data();
           // Set the fullName state to the value retrieved from Firestore
           setFullName(userData.fullName);
+
+          // Store fullName in localStorage
+          localStorage.setItem('fullName', userData.fullName);
         } else {
           console.log('User document not found');
         }
@@ -37,14 +40,22 @@ const Overview = () => {
     if (auth.currentUser) {
       fetchFullName();
     }
-  }, []); // 
+  }, [fullName]);
+
+  // Retrieve fullName from localStorage
+  useEffect(() => {
+    const storedFullName = localStorage.getItem('fullName');
+    if (storedFullName) {
+      setFullName(storedFullName);
+    }
+  }, []);
 
 
   return (
     <div className="overview-wrapper">
       <div className="overview-content">
         <div className="welcome-wrapper">
-          <h1>Welcome back, {fullName}!</h1>
+          <h1>Welcome back, {fullName && fullName.split(' ')[0]}!</h1>
           <h1>{currentDate}</h1>
         </div>
         <div className="components-wrapper">

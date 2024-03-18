@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import "../assets/styles/Form.css";
 import { TransactionTypes } from "../utils/TransactionTypes";
 import { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDownloadURL, firestore } from "../utils/firebaseConfig";
@@ -34,6 +34,7 @@ function CreditCard() {
   const [isCreditCardEditing, setIsCreditCardEditing] = useState(false);
   const [expiryDate, setExpiryDate] = useState("12/24"); // Initial expiry date
   const [isExpiryEditing, setIsExpiryEditing] = useState(false);
+  const [fullName, setFullName] = useState(''); // State to store full name
 
   const handleCreditCardNumberChange = (event) => {
     setCreditCardNumber(event.target.value);
@@ -60,6 +61,14 @@ function CreditCard() {
     setIsExpiryEditing(false);
   };
 
+  useEffect(() => {
+    // Retrieve fullName from localStorage
+    const storedFullName = localStorage.getItem('fullName');
+    if (storedFullName) {
+      setFullName(storedFullName);
+    }
+  }, [setFullName]); // Added setFullName as a dependency
+
   return (
     <div className="container credit-card">
       <div className="credit-card-container">
@@ -83,7 +92,7 @@ function CreditCard() {
         <div className="details-container">
           <div className="name">
             <p>FULL NAME</p>
-            <p className="full-name"></p>
+            <p className="full-name">{fullName.toUpperCase()}</p>
           </div>
           <div className="expiry">
             {isExpiryEditing ? (

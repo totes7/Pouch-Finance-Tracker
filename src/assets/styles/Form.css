@@ -24,13 +24,18 @@ p {
 
 
 .credit-card-container {
+    min-height: 160px;
     padding: 10px;
     border-radius: 20px;
-    background: radial-gradient(circle at 10% 20%, rgb(253, 193, 104) 0%, rgb(251, 128, 128) 90%);
+    background: linear-gradient(-71deg, #6089725c 25%, transparent 26%, transparent 74%, #6089725c 75%);
+    background-size: 4em 4em;
+    background-color: #8AD1AA;
+    opacity: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     text-align: left;
-    gap: 15px;
+    gap: 25px;
 
 }
 
@@ -64,6 +69,7 @@ p {
 .date,
 .full-name {
     color: var(--primary-text-color);
+    font-weight: 600;
 }
 
 .account-details {
@@ -102,6 +108,7 @@ p {
     border: none;
     color: var(--primary-text-color);
     border-radius: var(--button-border-radius);
+    background-color: #ffffff;
 }
 
 
@@ -161,3 +168,6 @@ input[type="file"] {
   
 
 
+
+
+  

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import '../assets/styles/Header.css';
@@ -8,6 +8,7 @@ import  { Navigate } from 'react-router-dom'
 
 function Header() {
   const [loggedOut, setLoggedOut] = useState(false); // State to track logout
+  const [fullName, setFullName] = useState(''); // State to store full name
 
   // Function to handle logout
   const handleLogout = async () => {
@@ -18,6 +19,17 @@ function Header() {
       console.error('Error logging out:', error.message);
     }
   };
+
+  useEffect(() => {
+    // Retrieve fullName from localStorage
+    const storedFullName = localStorage.getItem('fullName');
+    if (storedFullName) {
+      setFullName(storedFullName);
+    }
+  }, [setFullName]); // Added setFullName as a dependency
+
+  // Get initials
+  const initials = fullName && fullName.split(' ').map(word => word[0]).join('');
 
   return (
     <>
@@ -45,7 +57,7 @@ function Header() {
             </ul>
           </nav>
           <div className="user-wrapper">
-            <button data-tooltip-id="my-tooltip-1"><i className="fa-solid fa-user"></i></button>
+            <h2 data-tooltip-id="my-tooltip-1" className='initials'>{initials}</h2>
             <button data-tooltip-id="my-tooltip-2" onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket"></i></button>
           </div>
         </div>
@@ -54,7 +66,7 @@ function Header() {
           id="my-tooltip-1"
           place="bottom"
           variant="info"
-          content="Logged in as Noly"
+          content="Online"
           style={{ backgroundColor: "var(--light-green)", color: "var(--primary-text-color)", fontWeight: "500" }}
         />
 
