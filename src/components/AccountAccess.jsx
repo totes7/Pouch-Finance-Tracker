@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../utils/firebaseConfig";
+import { auth, doc, firestore, setDoc } from "../utils/firebaseConfig";
 import "../assets/styles/AccountAccess.css";
 import { Logo, SecondaryLogo } from './Logo';
 
@@ -38,7 +38,7 @@ function LoginForm({ toggleForm }) {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
+        console.log("User UID:", userCredential.user.uid);
       })
       .catch((error) => {
         console.log(error);
@@ -87,19 +87,28 @@ function SignUpForm({ toggleForm }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signUp = (e) => {
+  const signUp = async (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        sendEmailVerification(auth.currentUser);
-        setEmail("");
-        setPassword("");
-        setFullName("");
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Stores user information in Firestore
+      const userDocRef = doc(firestore, 'users', userCredential.user.uid);
+      await setDoc(userDocRef, {
+        fullName: fullName,
+        email: email,
       });
+      // Send email verification
+      await sendEmailVerification(auth.currentUser);
+      setEmail("");
+      setPassword("");
+      setFullName("");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
