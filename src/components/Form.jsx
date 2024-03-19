@@ -137,15 +137,16 @@ function TransactionForm() {
     type: "",
   });
 
-  // const firestore = firestore;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // If the field is "amount", parse the value to an integer
-    const parsedValue = name === 'amount' ? parseInt(value) : value;
-
+    // If the field is "amount", parse the value to a float if it's not empty
+    const parsedValue = name === 'amount' && value !== '' ? parseFloat(value) : value;
+  
     setFormData({ ...formData, [name]: parsedValue });
   };
+  
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -172,49 +173,48 @@ function TransactionForm() {
       const currentUser = auth.currentUser;
       const userUID = currentUser.uid;
 
-      // Check if any of the form fields are empty
       if (!formData.title || !formData.amount || !formData.type) {
-        emptyFormError(); // Show toast notification
-        return; // Stop further execution
+        emptyFormError();
+        return;
       }
 
-      // Reference the 'transactions' collection under the user's UID
-      const userTransactionsCollection = collection(
-        firestore,
-        `users/${userUID}/transactions`
-      );
+      setIsSubmitting(true); // Set isSubmitting to true when form is submitted
 
-      let pdfURL = ""; // Initialize variable to store download URL
+      // Simulate a 3-second delay
+      setTimeout(async () => {
+        const userTransactionsCollection = collection(
+          firestore,
+          `users/${userUID}/transactions`
+        );
 
-      // Check if pdfFile is present and upload it to Firebase Storage
-      if (formData.pdfFile) {
-        const storageRef = ref(storage, `users/${userUID}/pdfs/${formData.pdfFile.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, formData.pdfFile);
-        const snapshot = await uploadTask;
-        pdfURL = await getDownloadURL(snapshot.ref); // Get download URL
-      }
+        let pdfURL = "";
 
-      // Create a new object
-      const transactionData = {
-        title: formData.title,
-        amount: formData.amount,
-        type: formData.type,
-        pdfURL: pdfURL // Store download URL in Firestore
-      };
+        if (formData.pdfFile) {
+          const storageRef = ref(storage, `users/${userUID}/pdfs/${formData.pdfFile.name}`);
+          const uploadTask = uploadBytesResumable(storageRef, formData.pdfFile);
+          const snapshot = await uploadTask;
+          pdfURL = await getDownloadURL(snapshot.ref); // Get download URL
+        }
 
-      // Add a new document to the user's 'transactions' collection with the form data
-      await addDoc(userTransactionsCollection, transactionData);
+        const transactionData = {
+          title: formData.title,
+          amount: formData.amount,
+          type: formData.type,
+          pdfURL: pdfURL
+        };
 
-      // console.log("Transaction added successfully!");
-      successMessage();
+        await addDoc(userTransactionsCollection, transactionData);
 
-      // Reset the form fields after submission
-      setFormData({
-        title: "",
-        amount: "",
-        type: "",
-        pdfFile: null,
-      });
+        successMessage();
+        setFormData({
+          title: "",
+          amount: "",
+          type: "",
+          pdfFile: null,
+        });
+        setIsSubmitting(false); // Set isSubmitting back to false after form submission
+      }, 3000); // Simulate a 3-second delay
+
     } catch (error) {
       console.error("Error adding transaction: ", error);
     }
@@ -275,7 +275,15 @@ function TransactionForm() {
           />
           <label htmlFor="pdfFile" className="file-input-label" id="fileInputLabel">Choose a PDF file</label>
         </div>
-        <button type="submit">Add Transaction</button>
+        {isSubmitting ? (
+          <div className="spinner-wrapper">
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        ) : (
+          <button type="submit">Add Transaction</button>
+        )}
       </form>
     </div>
   );
