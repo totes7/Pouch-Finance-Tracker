@@ -30,10 +30,16 @@ Visualization tools help users identify spending trends, patterns, and areas for
 ## Usage 
 
 
-  ## Technologies Used
+## Deployed link
 
-Frontend: React, React Router, Bootstrap for styling, Chart.js for data visualization.
-Backend: Node.js, MongoDB for database storage,.
-Deployment: Deployed on platform Netlify.
+https://pouch-finance-tracker.netlify.app/
+
+
+## Technologies Used
+
+  Frontend: React, React Router, Bootstrap for styling, Chart.js for data visualization.
+  Backend: Node.js, Firebase (database and authentication)
+  Additional packages: React Router, Toastify, Tooltip, Dropzone
+  Deployment: Deployed on platform Netlify.
 
 ## License
