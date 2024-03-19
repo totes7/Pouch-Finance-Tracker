@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
@@ -10,18 +9,23 @@ import { auth, doc, db, getDoc } from "../utils/firebaseConfig.js";
 
 const Overview = () => {
   const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const getUsers = async () => {
-    try {
-      const usersCollection = doc(db, "users", auth.currentUser.uid);
-      const document = await getDoc(usersCollection);
-      setUserName(document.data().fullName);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const usersCollection = doc(db, "users", auth.currentUser.uid);
+        const document = await getDoc(usersCollection);
+        setUserName(document.data().fullName);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setLoading(false);
+      }
+    };
 
-  getUsers();
+    getUsers();
+  }, []); // Empty dependency array ensures the effect runs only once after mounting
 
   const currentDate = dayjs().format("ddd D MMMM, YYYY");
 
@@ -29,8 +33,14 @@ const Overview = () => {
     <div className="overview-wrapper">
       <div className="overview-content">
         <div className="welcome-wrapper">
-          <h1>Welcome back, {userName && userName.split(' ')[0]}!</h1>
-          <h1>{currentDate}</h1>
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <>
+              <h1>Welcome back, {userName && userName.split(' ')[0]}!</h1>
+              <h1>{currentDate}</h1>
+            </>
+          )}
         </div>
         <div className="components-wrapper">
           <div className="form-wrapper">
