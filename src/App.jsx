@@ -49,24 +49,26 @@ function App() {
     <>
       <Router>
         <div className="animate__animated animate__fadeIn">
-          {loggedIn ? (
-            <>
-              <Header/>
-              <Routes>
+          {loggedIn && <Header />} {/* Render Header only when logged in */}
+          <Routes>
+            {loggedIn ? (
+              <>
                 <Route path="/" element={<Overview />} />
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/documents" element={<Documents />} />
-              </Routes>
-              <Footer />
-            </>
-          ) : (
-            <>
-              <Routes>
-                <Route exact path="/" element={<AccountAccess />} />
-              </Routes>
-              <Footer />
-            </>
-          )}
+              </>
+            ) : (
+              <Route path="/" element={<AccountAccess />} />
+            )}
+            {/* Redirect to AccountAccess if not logged in and trying to access restricted routes */}
+            {!loggedIn && (
+              <>
+                <Route path="/transactions" element={<Navigate to="/" replace />} />
+                <Route path="/documents" element={<Navigate to="/" replace />} />
+              </>
+            )}
+          </Routes>
+          <Footer />
         </div>
       </Router>
     </>

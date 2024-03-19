@@ -8,19 +8,30 @@
 
 .no-documents {
     width: 100%;
-    font-size: 20px;
-    display: flex;
+    font-size: 18px;
     text-align: center;
+    color: var(--border-color);
+}
+
+.document-section-title {
+    font-size: 1.3rem;
+    text-transform: capitalize !important;
 }
 
 .documents-content {
     width: 100%;
     max-width: 1420px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
+}
+
+.items-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .document-item {
@@ -55,17 +66,51 @@
     width: 100%;
 }
 
-.document-item .delete {
-    background-color: #E55151 !important;
-    margin-top: 10px;
-    color: var(--primary-text-color);
-    width: 100%;
-}
 
 .document-item .title {
     font-size: 1.5rem;
     margin: 15px 0 0 0;
     padding: 0;
+}
+
+.document-item .button-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.document-item .button-wrapper button {
+    background-color: transparent !important;
+    padding: 0 !important;
+
+}
+
+.document-item .button-wrapper i {
+    transition: all 0.32s;
+    background-color: #8AD1AA;
+    border-radius: 10px;
+    padding: 0 !important;
+    opacity: 0.2;
+
+}
+
+.document-item .button-wrapper i:hover {
+    background-color: #7CBC99;
+    opacity: 1;
+}
+
+.document-item .button-wrapper .delete i {
+    color: #ffffff;
+    margin: 0 !important;
+    background-color: #E55151 !important;
+    transition: all 0.32s;
+
+}
+
+.document-item .button-wrapper .delete i:hover {
+    margin: 0 !important;
+    background-color: #ce4848 !important;
+
 }
 
 .document-item .type {
