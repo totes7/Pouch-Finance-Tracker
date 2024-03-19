@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import '../assets/styles/Header.css';
@@ -30,6 +30,11 @@ function Header() {
     }
   };
 
+
+
+  // Get initials
+  const initials = userName && userName.split(' ').map(word => word[0]).join('');
+
   return (
     <>
       <div className='header-wrapper'>
@@ -55,7 +60,7 @@ function Header() {
             </ul>
           </nav>
           <div className="user-wrapper">
-            <button data-tooltip-id="my-tooltip-1"><i className="fa-solid fa-user"></i></button>
+            <h2 data-tooltip-id="my-tooltip-1" className='initials'>{initials}</h2>
             <button data-tooltip-id="my-tooltip-2" onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket"></i></button>
           </div>
         </div>
@@ -64,7 +69,7 @@ function Header() {
           id="my-tooltip-1"
           place="bottom"
           variant="info"
-          content={`Logged in as ${userName}`}
+          content="Online"
           style={{ backgroundColor: "var(--light-green)", color: "var(--primary-text-color)", fontWeight: "500" }}
         />
 

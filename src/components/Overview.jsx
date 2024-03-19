@@ -29,7 +29,7 @@ const Overview = () => {
     <div className="overview-wrapper">
       <div className="overview-content">
         <div className="welcome-wrapper">
-          <h1>Welcome back, {userName}!</h1>
+          <h1>Welcome back, {userName && userName.split(' ')[0]}!</h1>
           <h1>{currentDate}</h1>
         </div>
         <div className="components-wrapper">
