@@ -1,0 +1,73 @@
+.documents-wrapper {
+    margin: 2rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+.no-documents {
+
+    width: 100%;
+    font-size: 20px;
+    display: flex;
+    text-align: center;
+}
+
+.documents-content {
+    width: 100%;
+    max-width: 1420px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.document-item {
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(64, 64, 69, .1);
+    border-radius: 20px;
+    width: 250px;
+    margin: 10px;
+
+}
+
+.document-item i {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1F2E9;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+
+.document-item button {
+    background-color: #8AD1AA;
+    margin-top: 15px;
+    color: var(--primary-text-color);
+    width: 100%;
+}
+
+.document-item .delete {
+    background-color: #E55151 !important;
+    margin-top: 10px;
+    color: var(--primary-text-color);
+    width: 100%;
+}
+
+.document-item .title {
+    font-size: 1.5rem;
+    margin: 15px 0 0 0;
+    padding: 0;
+}
+
+.document-item .type {
+    color: var(--border-color);
+}

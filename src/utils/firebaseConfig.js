@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; // Add this import
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -22,6 +22,6 @@ const firestore = getFirestore(); // Get a Firestore instance
 
 
 
-export { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDownloadURL, firestore, doc, setDoc, getDoc };
+export { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDownloadURL, firestore, doc, setDoc, getDoc, getDocs,updateDoc };
 
 export default firebaseConfig;
