@@ -60,9 +60,12 @@ function App() {
               <Footer />
             </>
           ) : (
-            <Routes>
-              <Route exact path="/" element={<AccountAccess />} />
-            </Routes>
+            <>
+              <Routes>
+                <Route exact path="/" element={<AccountAccess />} />
+              </Routes>
+              <Footer />
+            </>
           )}
         </div>
       </Router>
