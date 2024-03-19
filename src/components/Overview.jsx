@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
 import Transactions from "./Transactions";
 import Graphs from "./Graphs";
-import '../assets/styles/Overview.css';
-import { auth, firestore, doc, getDoc } from '../utils/firebaseConfig';
-
+import "../assets/styles/Overview.css";
+import { auth, doc, db, getDoc } from "../utils/firebaseConfig.js";
 
 const Overview = () => {
-  const [fullName, setFullName] = useState('');
+  const [userName, setUserName] = useState("");
+
+  const getUsers = async () => {
+    try {
+      const usersCollection = doc(db, "users", auth.currentUser.uid);
+      const document = await getDoc(usersCollection);
+      setUserName(document.data().fullName);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  getUsers();
+
   const currentDate = dayjs().format("ddd D MMMM, YYYY");
 
   useEffect(() => {
@@ -67,10 +80,8 @@ const Overview = () => {
             <Transactions />
           </div>
         </div>
-
       </div>
     </div>
-
   );
 };
 
