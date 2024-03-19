@@ -3,17 +3,28 @@ import { NavLink } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import '../assets/styles/Header.css';
 import { Logo, SecondaryLogo } from "./Logo";
-import { auth } from "../utils/firebaseConfig"; // Import your Firebase authentication instance
-import  { Navigate } from 'react-router-dom'
+import { auth, doc, db, getDoc } from "../utils/firebaseConfig"; // Import your Firebase authentication instance
 
 function Header() {
-  const [loggedOut, setLoggedOut] = useState(false); // State to track logout
+
+  const [userName, setUserName] = useState("");
+
+  const getUsers = async () => {
+    try {
+      const usersCollection = doc(db, "users", auth.currentUser.uid);
+      const document = await getDoc(usersCollection);
+      setUserName(document.data().fullName);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  getUsers();
 
   // Function to handle logout
   const handleLogout = async () => {
     try {
       await auth.signOut(); // Logout user from Firebase Authentication
-      setLoggedOut(true); // Set loggedOut state to true
     } catch (error) {
       console.error('Error logging out:', error.message);
     }
@@ -21,7 +32,6 @@ function Header() {
 
   return (
     <>
-      {loggedOut && <Navigate to="/login" />} {/* Redirect to /login if loggedOut state is true */}
       <div className='header-wrapper'>
         <div className="header">     
             <SecondaryLogo />
@@ -54,7 +64,7 @@ function Header() {
           id="my-tooltip-1"
           place="bottom"
           variant="info"
-          content="Logged in as Noly"
+          content={`Logged in as ${userName}`}
           style={{ backgroundColor: "var(--light-green)", color: "var(--primary-text-color)", fontWeight: "500" }}
         />
 
