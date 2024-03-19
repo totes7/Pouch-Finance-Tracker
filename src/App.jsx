@@ -18,34 +18,41 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false); // State to track user login status
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setLoggedIn(true);
+        console.log(loggedIn);
       } else {
         setLoggedIn(false);
+        console.log(loggedIn);
       }
     });
-  }, [loggedIn]);
+
+    // Cleanup function
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
-      {loggedIn ? (
-        <Router>
-          <Header />
-          <Routes>
-            <Route exact path="/" element={<Overview />} />
-            <Route path="/transactions" element={<Transactions />} />
-            <Route path="/documents" element={<Documents />} />
-          </Routes>
-          <Footer />
-        </Router>
-      ) : (
-        <Router>
-          <Routes>
-            <Route path="/login" element={<AccountAccess />} />
-          </Routes>
-        </Router>
-      )}
+      <Router>
+        <div>
+          {loggedIn ? (
+            <>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Overview />} />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/documents" element={<Documents />} />
+              </Routes>
+              <Footer />
+            </>
+          ) : (
+            <Routes>
+              <Route exact path="/" element={<AccountAccess />} />
+            </Routes>
+          )}
+        </div>
+      </Router>
     </>
   );
 }
