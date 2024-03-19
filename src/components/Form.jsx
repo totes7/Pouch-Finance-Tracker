@@ -141,7 +141,10 @@ function TransactionForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // If the field is "amount", parse the value to an integer
+    const parsedValue = name === 'amount' ? parseInt(value) : value;
+
+    setFormData({ ...formData, [name]: parsedValue });
   };
 
   const handleFileChange = (e) => {
@@ -239,7 +242,7 @@ function TransactionForm() {
           name="amount"
           value={formData.amount}
           onChange={handleChange}
-          placeholder="$"
+          placeholder="£"
           autoComplete="username"
 
         />
