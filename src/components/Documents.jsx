@@ -4,49 +4,47 @@ import { TransactionTypes } from "../utils/TransactionTypes";
 import '../assets/styles/Documents.css';
 
 function Docs() {
-  const [documents, setDocuments] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true); // State variable to track loading state
 
   useEffect(() => {
-    const fetchDocuments = async () => {
+    const fetchTransactions = async () => {
       try {
         const currentUser = auth.currentUser;
         if (!currentUser) {
-          // No authenticated user, do not proceed fetching documents
+          // No authenticated user, do not proceed fetching transactions
           return;
         }
         
         const userUID = currentUser.uid;
         
-        const documentsRef = collection(db, `users/${userUID}/transactions`);
-        const snapshot = await getDocs(documentsRef);
-        const documentsData = snapshot.docs
+        const transactionsRef = collection(db, `users/${userUID}/transactions`);
+        const snapshot = await getDocs(transactionsRef);
+        const transactionsData = snapshot.docs
           .filter(doc => doc.data().pdfURL)
           .map((doc) => ({
             id: doc.id,
             ...doc.data()
           }));
-        setDocuments(documentsData);
-        // Set loading state to false after documents are fetched, with a delay of 5 seconds
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
+        setTransactions(transactionsData);
+        // Set loading state to false after transactions are fetched
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching documents: ", error);
+        console.error("Error fetching transactions: ", error);
         setLoading(false); // Set loading state to false in case of error
       }
     };
 
-    fetchDocuments();
+    fetchTransactions();
   }, []);
 
   // Function to handle deleting pdfURL from transaction
-  const handleDeletePDF = async (documentId) => {
+  const handleDeletePDF = async (transactionId) => {
     try {
-      await updateDoc(doc(db, `users/${auth.currentUser.uid}/transactions`, documentId), {
+      await updateDoc(doc(db, `users/${auth.currentUser.uid}/transactions`, transactionId), {
         pdfURL: null // Set pdfURL to null to delete it
       });
-      setDocuments(prevDocuments => prevDocuments.filter(document => document.id !== documentId));
+      setTransactions(prevTransactions => prevTransactions.filter(transaction => transaction.id !== transactionId));
     } catch (error) {
       console.error("Error deleting pdfURL: ", error);
     }
@@ -58,6 +56,16 @@ function Docs() {
     return transactionType ? transactionType.icon : null;
   };
 
+  // Group transactions by type
+  const groupedTransactions = transactions.reduce((acc, transaction) => {
+    const type = transaction.type.toLowerCase(); // Convert type to lowercase for consistency
+    if (!acc[type]) {
+      acc[type] = [];
+    }
+    acc[type].push(transaction);
+    return acc;
+  }, {});
+
   return (
     <div className="documents-wrapper">
       {loading ? ( // Render spinner if loading state is true
@@ -66,25 +74,24 @@ function Docs() {
         </div>
       ) : (
         <div className="documents-content">
-          {documents.length === 0 ? (
-            <h2 className="no-documents">No documents at the moment</h2>
-          ) : (
-            documents.map((document) => (
-              <div key={document.id} className="document-item">
-                {document.type && (
-                  <div className="icon"><i className={getIconForType(document.type)}></i></div>
-                )}
-                <h2 className="title">{document.title}</h2>
-                <p className="type">{document.type}</p>
-                {document.pdfURL && (
-                  <>
-                    <button onClick={() => window.open(document.pdfURL, "_blank")}>View</button>
-                    <button onClick={() => handleDeletePDF(document.id)} className="delete">Delete</button>
-                  </>
-                )}
-              </div>
-            ))
-          )}
+          {Object.entries(groupedTransactions).map(([type, transactionsOfType]) => (
+            <div key={type} className="transaction-type-section">
+              <h2>{type.toUpperCase()}</h2>
+              {transactionsOfType.map((transaction) => (
+                <div key={transaction.id} className="document-item">
+                  <div className="icon"><i className={getIconForType(transaction.type)}></i></div>
+                  <h2 className="title">{transaction.title}</h2>
+                  <p className="type">{transaction.type}</p>
+                  {transaction.pdfURL && (
+                    <>
+                      <button onClick={() => window.open(transaction.pdfURL, "_blank")}>View</button>
+                      <button onClick={() => handleDeletePDF(transaction.id)} className="delete">Delete</button>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       )}
     </div>

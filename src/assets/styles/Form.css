@@ -78,7 +78,7 @@ p {
     display: flex;
     flex-direction: column;
     text-align: left;
-    
+
 }
 
 .account-details h3 {
@@ -111,6 +111,9 @@ p {
     background-color: #ffffff;
 }
 
+.transaction-form h2 {
+    text-align: center;
+}
 
 .container.transaction-form label {
     text-align: left;
@@ -128,28 +131,29 @@ select {
     -moz-appearance: none;
     appearance: none;
     /* Add padding to accommodate the custom arrow */
-    padding-right: 20px; 
+    padding-right: 20px;
     /* Use the custom arrow */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="16" height="16" stroke="%23204F36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
     background-repeat: no-repeat;
     background-position: right 5px center;
-  }
- .fa-solid.fa-angle-down {
-    font-size: 12px;
-  }
+}
 
-  /* Hide the original file input */
+.fa-solid.fa-angle-down {
+    font-size: 12px;
+}
+
+/* Hide the original file input */
 input[type="file"] {
     display: none;
-  }
-  
-  /* Style the container */
-  .file-input-container {
+}
+
+/* Style the container */
+.file-input-container {
     position: relative;
-  }
-  
-  /* Style the label to resemble a button */
-  .file-input-label {
+}
+
+/* Style the label to resemble a button */
+.file-input-label {
     width: 100%;
     display: inline-block;
     font-weight: 400 !important;
@@ -159,15 +163,29 @@ input[type="file"] {
     border-radius: var(--button-border-radius);
     cursor: pointer;
     transition: all 0.2s;
-  }
-  
-  /* Style the label when hovering */
-  .file-input-label:hover {
+}
+
+/* Style the label when hovering */
+.file-input-label:hover {
     background-color: #E1F2E9;
-  }
-  
+}
 
+.spinner-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
 
+.spinner-wrapper .spinner-border {
+    color: #ffffff !important;
+}
 
+form button {
+    transition: all 0.5s;
+}
 
-  
+form button:hover {
+    color: #ffffff;
+    background-color: var(--disabled-text-color);
+}
