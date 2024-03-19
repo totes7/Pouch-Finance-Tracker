@@ -29,9 +29,4 @@ export const TransactionTypes = [
     title: "Income",
     icon: 'fa-solid fa-briefcase',
   },
-  {
-    id: 7,
-    title: "Savings",
-    icon: 'fa-solid fa-briefcase',
-  },
 ];

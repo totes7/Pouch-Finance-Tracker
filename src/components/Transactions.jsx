@@ -8,7 +8,6 @@ import { getFirestore } from "firebase/firestore";
 
 function Transactions() {
   const [transactionData, setTransactionData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const user = auth.currentUser;
 
   useEffect(() => {
@@ -31,9 +30,7 @@ function Transactions() {
         }));
         setTransactionData(data);
       } catch (error) {
-        console.log("Error fetching transaction data:");
-      } finally {
-        setIsLoading(false);
+        console.log("Error fetching transaction data:", error);
       }
     };
 
@@ -57,50 +54,38 @@ function Transactions() {
   };
 
   return (
-    <div className="container-fluid transaction">
-      {isLoading ? (
-        <h2>Loading...</h2>
-      ) : transactionData.length === 0 ? (
-        <h2>No transactions at the moment</h2>
-      ) : (
+    <div className="container-fluid">
+      {transactionData ? (
         transactionData.map((transaction) => {
           const transactionType = TransactionTypes.find(
-            (type) => type.title.toLowerCase() === transaction.type
+            (type) => type.title === transaction.type
           );
 
-          if (transactionType) {
-            return (
-              <div key={transaction.id} className="row mb-3">
-                <div className="col mb-2">
-                  {transactionType && (
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: transactionType.icon,
-                      }}
-                    />
-                  )}
-                </div>
-                <div className="col mb-2">
-                  <div className="title">{transaction.title}</div>
-                </div>
-                <div className="col mb-2">
-                  <div className="transaction-type">{transaction.type}</div>
-                </div>
-                <div className="col mb-2">
-                  <div className="amount">${transaction.amount}</div>
-                </div>
-                <div className="col mb-2">
-                  <i
-                    className="fa-solid fa-delete-left"
-                    onClick={() => handleDelete(transaction.id)}
-                  ></i>
-                </div>
+          return (
+            <div key={transaction.id} className="row mb-3">
+              <div className="col mb-2 icon-wrap">
+                <i className={transactionType.icon}></i>
               </div>
-            );
-          } else {
-            return null;
-          }
+              <div className="col mb-2">
+                <div className="title">{transaction.title}</div>
+              </div>
+              <div className="col mb-2">
+                <div className="transaction-type">{transaction.type}</div>
+              </div>
+              <div className="col mb-2">
+                {transaction.type === 'Income' || transaction.type === 'Savings' ? <div className="amount-plus">+${transaction.amount}</div> : <div className="amount-minus">-${transaction.amount}</div>}
+              </div>
+              <div className="col mb-2">
+                <button className="btn-sm delete-button" onClick={() => handleDelete(transaction.id)}>
+                  Delete
+                </button>
+              </div>
+              <hr />
+            </div>
+          );
         })
+      ) : (
+        <h2>No transactions at the moment</h2>
       )}
     </div>
   );
