@@ -1,5 +1,10 @@
+/* .transactions-wrapper {
+  min-height: 100vh;
+} */
+
 .container-fluid {
-  border: solid 1px var(--border-color);
+  max-width: 1420px;
+  /* border: solid 1px rgba(64, 64, 69, .1); */
   border-radius: 20px;
   margin-top: 20px;
   padding: 20px;
@@ -37,3 +42,9 @@
   color: red;
 }
 
+.no-transactions {
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  color: var(--border-color);
+}

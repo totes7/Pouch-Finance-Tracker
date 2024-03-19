@@ -4,10 +4,10 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../utils/firebaseConfig";
 import "../assets/styles/Transactions.css";
 import { getFirestore } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
 
 function Transactions() {
   const [transactionData, setTransactionData] = useState([]);
+  const [loading, setLoading] = useState(true); // State variable to track loading state
   const user = auth.currentUser;
 
   useEffect(() => {
@@ -29,6 +29,10 @@ function Transactions() {
           ...doc.data(),
         }));
         setTransactionData(data);
+        // Simulate a 3-second delay
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       } catch (error) {
         console.log("Error fetching transaction data:", error);
       }
@@ -54,39 +58,57 @@ function Transactions() {
   };
 
   return (
-    <div className="container-fluid">
-      {transactionData ? (
-        transactionData.map((transaction) => {
-          const transactionType = TransactionTypes.find(
-            (type) => type.title === transaction.type
-          );
+    <div className="transactions-wrapper">
+      <div className="container-fluid">
+        {loading ? ( // Render spinner if loading state is true
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : transactionData.length === 0 ? (
+          <h2 className="no-transactions">No transactions at the moment</h2>
+        ) : (
+          transactionData.map((transaction) => {
+            const transactionType = TransactionTypes.find(
+              (type) => type.title === transaction.type
+            );
 
-          return (
-            <div key={transaction.id} className="row mb-3">
-              <div className="col mb-2 icon-wrap">
-                <i className={transactionType.icon}></i>
+            return (
+              <div key={transaction.id} className="row mb-3">
+                <div className="col mb-2 icon-wrap">
+                  <i className={transactionType.icon}></i>
+                </div>
+                <div className="col mb-2">
+                  <div className="title">{transaction.title}</div>
+                </div>
+                <div className="col mb-2">
+                  <div className="transaction-type">{transaction.type}</div>
+                </div>
+                <div className="col mb-2">
+                  {transaction.type === "Income" ||
+                  transaction.type === "Savings" ? (
+                    <div className="amount-plus">
+                      +£{transaction.amount}
+                    </div>
+                  ) : (
+                    <div className="amount-minus">
+                      -£{transaction.amount}
+                    </div>
+                  )}
+                </div>
+                <div className="col mb-2">
+                  <button
+                    className="btn-sm delete-button"
+                    onClick={() => handleDelete(transaction.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                <hr />
               </div>
-              <div className="col mb-2">
-                <div className="title">{transaction.title}</div>
-              </div>
-              <div className="col mb-2">
-                <div className="transaction-type">{transaction.type}</div>
-              </div>
-              <div className="col mb-2">
-                {transaction.type === 'Income' || transaction.type === 'Savings' ? <div className="amount-plus">+${transaction.amount}</div> : <div className="amount-minus">-${transaction.amount}</div>}
-              </div>
-              <div className="col mb-2">
-                <button className="btn-sm delete-button" onClick={() => handleDelete(transaction.id)}>
-                  Delete
-                </button>
-              </div>
-              <hr />
-            </div>
-          );
-        })
-      ) : (
-        <h2>No transactions at the moment</h2>
-      )}
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

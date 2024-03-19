@@ -15,6 +15,7 @@ import Documents from "./components/Documents";
 import { auth } from "./utils/firebaseConfig.js";
 import { SecondaryLogo } from "./components/Logo"; // Import Logo component
 
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false); // State to track user login status
   const [loading, setLoading] = useState(true); // State to track loading status
