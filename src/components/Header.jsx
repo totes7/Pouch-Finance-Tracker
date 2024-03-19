@@ -30,16 +30,10 @@ function Header() {
     }
   };
 
-  useEffect(() => {
-    // Retrieve fullName from localStorage
-    const storedFullName = localStorage.getItem('fullName');
-    if (storedFullName) {
-      setFullName(storedFullName);
-    }
-  }, [setFullName]); // Added setFullName as a dependency
+
 
   // Get initials
-  const initials = fullName && fullName.split(' ').map(word => word[0]).join('');
+  const initials = userName && userName.split(' ').map(word => word[0]).join('');
 
   return (
     <>
@@ -75,7 +69,7 @@ function Header() {
           id="my-tooltip-1"
           place="bottom"
           variant="info"
-          content={`Logged in as ${userName}`}
+          content="Online"
           style={{ backgroundColor: "var(--light-green)", color: "var(--primary-text-color)", fontWeight: "500" }}
         />
 

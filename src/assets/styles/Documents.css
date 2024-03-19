@@ -5,8 +5,8 @@
     justify-content: center;
     min-height: 100vh;
 }
-.no-documents {
 
+.no-documents {
     width: 100%;
     font-size: 20px;
     display: flex;
@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
 }
 
