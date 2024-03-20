@@ -1,115 +1,105 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { TransactionTypes } from "../utils/TransactionTypes";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../utils/firebaseConfig";
 import "../assets/styles/Transactions.css";
-import { getFirestore } from "firebase/firestore";
+import { useFetchTransactionData } from "../utils/fetchTransactionData";
 
 function Transactions() {
-  const [transactionData, setTransactionData] = useState([]);
-  const [loading, setLoading] = useState(true); // State variable to track loading state
-  const user = auth.currentUser;
+  const { transactionData, loading } = useFetchTransactionData();
 
-  useEffect(() => {
-    const fetchTransactionData = async () => {
-      try {
-        if (!user) {
-          throw new Error("User is not authenticated.");
-        }
-
-        const usersCollection = collection(db, "users");
-        const loggedInUserDocRef = doc(usersCollection, user.uid);
-        const transactionsCollection = collection(
-          loggedInUserDocRef,
-          "transactions"
-        );
-        const snapshot = await getDocs(transactionsCollection);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setTransactionData(data);
-        // Simulate a 3-second delay
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      } catch (error) {
-        console.log("Error fetching transaction data:", error);
-      }
-    };
-
-    fetchTransactionData();
-  }, [db, user]);
-
-  const handleDelete = async (id) => {
+  // Define handleDelete function
+  const handleDelete = async (transactionId) => {
     try {
-      const transactionsCollection = collection(
-        db,
-        `users/${user.uid}/transactions`
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User is not authenticated.");
+      }
+
+      const transactionRef = doc(
+        collection(db, `users/${user.uid}/transactions`),
+        transactionId
       );
-      const transactionDocRef = doc(transactionsCollection, id);
-      await deleteDoc(transactionDocRef);
-      setTransactionData((prevData) =>
-        prevData.filter((transaction) => transaction.id !== id)
-      );
+      await deleteDoc(transactionRef);
+      // Refresh the page after deletion
+      window.location.reload();
     } catch (error) {
-      console.error("Error deleting transaction:", error);
+      console.log("Error deleting transaction:", error);
     }
   };
 
-  return (
-    <div className="transactions-wrapper">
-      <div className="container-fluid">
-        {loading ? ( // Render spinner if loading state is true
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        ) : transactionData.length === 0 ? (
-          <h2 className="no-transactions">No transactions at the moment</h2>
-        ) : (
-          transactionData.map((transaction) => {
-            const transactionType = TransactionTypes.find(
-              (type) => type.title === transaction.type
-            );
+  // Group transactions by type
+  const groupedTransactions = transactionData.reduce((acc, transaction) => {
+    const type = transaction.type.toLowerCase(); // Convert type to lowercase for consistency
+    if (!acc[type]) {
+      acc[type] = [];
+    }
+    acc[type].push(transaction);
+    return acc;
+  }, {});
 
-            return (
-              <div key={transaction.id} className="row mb-3">
-                <div className="col mb-2 icon-wrap">
-                  <i className={transactionType.icon}></i>
+  return (
+    <>
+      <div className="all-transactions-wrapper">
+        <div className="all-transactions-content">
+          {loading ? (
+            // Render spinner if loading state is true
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : transactionData.length === 0 ? (
+            <h2 className="no-transactions">No transactions at the moment</h2>
+          ) : (
+            Object.entries(groupedTransactions).map(
+              ([type, transactionsOfType]) => (
+                <div key={type} className="transaction-type-section">
+                  <h2 className="transaction-section-title">{type}</h2>
+                  {transactionsOfType.map((transaction) => {
+                    const transactionType = TransactionTypes.find(
+                      (typeObj) => typeObj.title === transaction.type
+                    );
+                    return (
+                      <div
+                        key={transaction.id}
+                        className="all-transaction-item"
+                      >
+                        <div className="mini-icon-wrapper">
+                          <i className={transactionType.icon}></i>
+                        </div>
+                        <div className="all-title-wrapper">
+                          <h6>{transaction.title}</h6>
+                        </div>
+                        <div className="all-transaction-type">
+                          <h6>{transaction.type}</h6>
+                        </div>
+                        <div className="all-price-wrapper">
+                          {transaction.type === "Income" ||
+                          transaction.type === "Savings" ? (
+                            <div className="amount-plus number-font">
+                              +£{transaction.amount.toFixed(2)}
+                            </div>
+                          ) : (
+                            <div className="amount-minus number-font">
+                              -£{transaction.amount.toFixed(2)}
+                            </div>
+                          )}
+                        </div>
+                        <div className="all-button-wrapper">
+                          <i
+                            className="fa-solid fa-trash-can"
+                            onClick={() => handleDelete(transaction.id)}
+                          ></i>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="col mb-2">
-                  <div className="title">{transaction.title}</div>
-                </div>
-                <div className="col mb-2">
-                  <div className="transaction-type">{transaction.type}</div>
-                </div>
-                <div className="col mb-2">
-                  {transaction.type === "Income" ||
-                  transaction.type === "Savings" ? (
-                    <div className="amount-plus">
-                      +£{transaction.amount}
-                    </div>
-                  ) : (
-                    <div className="amount-minus">
-                      -£{transaction.amount}
-                    </div>
-                  )}
-                </div>
-                <div className="col mb-2">
-                  <button
-                    className="btn-sm delete-button"
-                    onClick={() => handleDelete(transaction.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-                <hr />
-              </div>
-            );
-          })
-        )}
+              )
+            )
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

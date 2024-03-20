@@ -2,30 +2,19 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
-import Transactions from "./Transactions";
+import MiniTransactions from "./MiniTransactions";
 import Graphs from "./Graphs";
 import "../assets/styles/Overview.css";
-import { auth, doc, db, getDoc } from "../utils/firebaseConfig.js";
+import useFetchName from "../utils/fetchName";
+import { auth } from "../utils/firebaseConfig";
 
 const Overview = () => {
-  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
+  const { fullName } = useFetchName(auth.currentUser.uid);
 
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const usersCollection = doc(db, "users", auth.currentUser.uid);
-        const document = await getDoc(usersCollection);
-        setUserName(document.data().fullName);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setLoading(false);
-      }
-    };
-
-    getUsers();
-  }, []); // Empty dependency array ensures the effect runs only once after mounting
+    setLoading(false);
+  }, []);
 
   const currentDate = dayjs().format("ddd D MMMM, YYYY");
 
@@ -37,8 +26,8 @@ const Overview = () => {
             <h1>Loading...</h1>
           ) : (
             <>
-              <h1>Welcome back, {userName && userName.split(' ')[0]}!</h1>
-              <h1>{currentDate}</h1>
+              <h1>Welcome back, {fullName && fullName.split(' ')[0]}!</h1>
+              <h1 className="overview-date">{currentDate}</h1>
             </>
           )}
         </div>
@@ -47,8 +36,10 @@ const Overview = () => {
             <Form />
           </div>
           <div className="graphs-wrapper">
+            <h1>Graphs</h1>
             <Graphs />
-            <Transactions />
+            <h1>Transactions</h1>
+            <MiniTransactions />
           </div>
         </div>
       </div>

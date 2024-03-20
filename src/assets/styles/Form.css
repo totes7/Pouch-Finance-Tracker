@@ -27,9 +27,14 @@ p {
     min-height: 160px;
     padding: 10px;
     border-radius: 20px;
-    background: linear-gradient(-71deg, #6089725c 25%, transparent 26%, transparent 74%, #6089725c 75%);
-    background-size: 4em 4em;
-    background-color: #8AD1AA;
+    background:
+    conic-gradient(#8ad1aa 25%,#0000 0) 0 0/calc(2*32px) calc(32px/9.5),
+    conic-gradient(#8ad1aa 25%,#0000 0) 0 0/calc(32px/9.5) calc(2*32px),
+    repeating-conic-gradient(#0000 0 25%,#8ad1aa 0 50%) 
+     32px 0 /calc(2*32px) calc(2*32px),
+    radial-gradient(50% 50%,#7bb796 98%,#8ad1aa) 
+     0 0/32px 32px;
+
     opacity: 1;
     display: flex;
     flex-direction: column;
