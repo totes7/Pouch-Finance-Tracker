@@ -28,6 +28,7 @@
     border: none;
     color: var(--primary-text-color);
     border-radius: var(--button-border-radius);
+    background-color: #ffffff;
 }
 
 .form-container label {
@@ -43,6 +44,7 @@ form button  {
 }
 
 .switch-form {
+    width: 100%;
     background-color: transparent;
     color: #ffffff;
 }
