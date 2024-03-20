@@ -1,59 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { TransactionTypes } from "../utils/TransactionTypes";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../utils/firebaseConfig";
 import "../assets/styles/Transactions.css";
-import { getFirestore } from "firebase/firestore";
+import { useFetchTransactionData } from "../utils/fetchTransactionData";
 
 function Transactions() {
-  const [transactionData, setTransactionData] = useState([]);
-  const [loading, setLoading] = useState(true); // State variable to track loading state
-  const user = auth.currentUser;
 
-  useEffect(() => {
-    const fetchTransactionData = async () => {
-      try {
-        if (!user) {
-          throw new Error("User is not authenticated.");
-        }
+  const { transactionData, loading } = useFetchTransactionData();
 
-        const usersCollection = collection(db, "users");
-        const loggedInUserDocRef = doc(usersCollection, user.uid);
-        const transactionsCollection = collection(
-          loggedInUserDocRef,
-          "transactions"
-        );
-        const snapshot = await getDocs(transactionsCollection);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setTransactionData(data);
-        // Simulate a 3-second delay
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      } catch (error) {
-        console.log("Error fetching transaction data:", error);
-      }
-    };
-
-    fetchTransactionData();
-  }, [db, user]);
-
-  const handleDelete = async (id) => {
+  // Define handleDelete function
+  const handleDelete = async (transactionId) => {
     try {
-      const transactionsCollection = collection(
-        db,
-        `users/${user.uid}/transactions`
-      );
-      const transactionDocRef = doc(transactionsCollection, id);
-      await deleteDoc(transactionDocRef);
-      setTransactionData((prevData) =>
-        prevData.filter((transaction) => transaction.id !== id)
-      );
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("User is not authenticated.");
+      }
+
+      const transactionRef = doc(collection(db, `users/${user.uid}/transactions`), transactionId);
+      await deleteDoc(transactionRef);
+      // Refresh the page after deletion
+      window.location.reload();
     } catch (error) {
-      console.error("Error deleting transaction:", error);
+      console.log("Error deleting transaction:", error);
     }
   };
 

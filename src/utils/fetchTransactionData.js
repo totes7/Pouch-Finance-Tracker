@@ -16,7 +16,10 @@ export function useFetchTransactionData() {
 
         const transactionsCollection = collection(db, `users/${user.uid}/transactions`);
         const snapshot = await getDocs(transactionsCollection);
-        const data = snapshot.docs.map((doc) => doc.data());
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         setTransactionData(data);
         setLoading(false);
       } catch (error) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "./Form";
-import Transactions from "./Transactions";
+import MiniTransactions from "./MiniTransactions";
 import Graphs from "./Graphs";
 import "../assets/styles/Overview.css";
 import useFetchName from "../utils/fetchName";
@@ -36,8 +36,10 @@ const Overview = () => {
             <Form />
           </div>
           <div className="graphs-wrapper">
+            <h1>Graphs</h1>
             <Graphs />
-            <Transactions />
+            <h1>Transactions</h1>
+            <MiniTransactions />
           </div>
         </div>
       </div>
