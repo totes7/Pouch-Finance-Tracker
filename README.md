@@ -51,7 +51,7 @@ Visualization tools help users identify spending trends, patterns, and areas for
 ## Technologies Used
 
 Frontend: React, React Router, Bootstrap for styling, Chart.js for data visualization.
-Backend: Node.js, MongoDB for database storage,.
+Backend: Node.js, Firebase - Firestore for database storage and Authentication for Users set-up.
 Deployment: Deployed on platform Netlify.
 
 ## License
