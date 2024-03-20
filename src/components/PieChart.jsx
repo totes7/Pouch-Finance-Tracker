@@ -67,8 +67,10 @@ export function PieChart() {
             <div className="spinner-border" role="status">
               <span className="sr-only">Loading...</span>
             </div>
-          ) : (
+          ) : transactionData.length > 0 ? (
             <Pie options={options} data={chartData} width={200} height={200} />
+          ) : (
+            <p className="no-data">No data at the moment</p>
           )}
         </div>
       </div>

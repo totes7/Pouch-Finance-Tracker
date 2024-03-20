@@ -7,6 +7,8 @@ import {
 import { auth, doc, firestore, setDoc } from "../utils/firebaseConfig";
 import "../assets/styles/AccountAccess.css";
 import { Logo, SecondaryLogo } from './Logo';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function AccountAccess() {
@@ -41,43 +43,58 @@ function LoginForm({ toggleForm }) {
         console.log("User UID:", userCredential.user.uid);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.message);
       });
   };
 
   return (
-    <div className="container-box">
-      <div className="form-container">
-        <Logo />
-        {/* TODO: add onSubmit="" to form */}
-        <form onSubmit={logIn}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            placeholder="E.g. SteveJobs@email.com"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="************"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">Login</button>
-        </form>
-        <button className="switch-form" onClick={toggleForm}>
-          Not got an account?
-        </button>
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
+      <div className="container-box">
+        <div className="form-container">
+          <Logo />
+          {/* TODO: add onSubmit="" to form */}
+          <form onSubmit={logIn}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              placeholder="E.g. SteveJobs@email.com"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="************"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Login</button>
+          </form>
+          <button className="switch-form" onClick={toggleForm}>
+            Not got an account?
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -107,53 +124,68 @@ function SignUpForm({ toggleForm }) {
       setPassword("");
       setFullName("");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
   return (
-    <div className="container-box">
-      <div className="form-container">
-        <Logo />
-        {/* TODO: add onSubmit="" to form */}
-        <form onSubmit={signUp}>
-          <label htmlFor="fullname">Full Name</label>
-          <input
-            type="text"
-            id="fullname"
-            name="fullname"
-            autoComplete="name"
-            required
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            autoComplete="new-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit">Sign Up</button>
-        </form>
-        <button className="switch-form" onClick={toggleForm}>
-          Already have an account?
-        </button>
+    <>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
+      <div className="container-box">
+        <div className="form-container">
+          <Logo />
+          {/* TODO: add onSubmit="" to form */}
+          <form onSubmit={signUp}>
+            <label htmlFor="fullname">Full Name</label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              autoComplete="name"
+              required
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="new-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Sign Up</button>
+          </form>
+          <button className="switch-form" onClick={toggleForm}>
+            Already have an account?
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -57,6 +57,13 @@
     margin-bottom: 0 !important;
 }
 
+.no-transactions {
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    color: var(--border-color);
+}
+
 @media only screen and (max-width: 670px) {
     .mini-transaction-item {
         height: auto;
