@@ -15,8 +15,6 @@ export function PieChart() {
       .filter((transaction) => transaction.type === "Savings" || transaction.type === "Income")
       .reduce((total, transaction) => total + transaction.amount, 0);
     setTotalSavingsIncome(savingsIncome);
-       // Store totalExpenses in localStorage
-       localStorage.setItem("totalSavingsIncome", JSON.stringify(savingsIncome));
   }, [transactionData]);
 
   // Calculate savings and income amounts
@@ -26,6 +24,8 @@ export function PieChart() {
   const incomeAmount = transactionData
     .filter((transaction) => transaction.type === "Income")
     .reduce((total, transaction) => total + transaction.amount, 0);
+
+    console.log(incomeAmount);
 
   // Define chart data
   const chartData = {

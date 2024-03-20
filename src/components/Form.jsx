@@ -4,6 +4,7 @@ import { TransactionTypes } from "../utils/TransactionTypes";
 import { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDownloadURL, firestore } from "../utils/firebaseConfig";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useFetchTransactionData } from "../utils/fetchTransactionData";
 
 export function Form() {
   return (
@@ -35,6 +36,17 @@ function CreditCard() {
   const [expiryDate, setExpiryDate] = useState("12/24"); // Initial expiry date
   const [isExpiryEditing, setIsExpiryEditing] = useState(false);
   const [fullName, setFullName] = useState(''); // State to store full name
+  const { transactionData } = useFetchTransactionData();
+
+  // Calculate savings and income amounts
+  const savingsAmount = transactionData
+    .filter((transaction) => transaction.type === "Savings")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+  const incomeAmount = transactionData
+    .filter((transaction) => transaction.type === "Income")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  console.log(incomeAmount, savingsAmount);
 
   const handleCreditCardNumberChange = (event) => {
     setCreditCardNumber(event.target.value);
@@ -88,7 +100,7 @@ function CreditCard() {
               autoFocus
             />
           ) : (
-            <h5 onClick={handleCreditCardNumberClick}>{creditCardNumber}</h5>
+            <h5 onClick={handleCreditCardNumberClick} className='number-font'>{creditCardNumber}</h5>
           )}
         </div>
         <div className="details-container">
@@ -108,7 +120,7 @@ function CreditCard() {
             ) : (
               <div>
                 <p>EXPIRY/DATE:</p>
-                <p className="date" onClick={handleExpiryDateClick}>
+                <p className="date number-font" onClick={handleExpiryDateClick}>
                   {expiryDate}
                 </p>
               </div>
@@ -119,11 +131,11 @@ function CreditCard() {
       <div className="account-details">
         <div className="balance">
           <h3>Balance:</h3>
-          <h3></h3>
+          <h3 className='number-font'>£{incomeAmount.toFixed(2)}</h3>
         </div>
         <div className="savings">
           <h3>Savings:</h3>
-          <h3></h3>
+          <h3 className='number-font'>£{savingsAmount.toFixed(2)}</h3>
         </div>
       </div>
     </div>
@@ -145,10 +157,10 @@ function TransactionForm() {
     const { name, value } = e.target;
     // If the field is "amount", parse the value to a float if it's not empty
     const parsedValue = name === 'amount' && value !== '' ? parseFloat(value) : value;
-  
+
     setFormData({ ...formData, [name]: parsedValue });
   };
-  
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

@@ -86,11 +86,11 @@ function Transactions() {
                 <div className="col mb-2">
                   {transaction.type === "Income" ||
                   transaction.type === "Savings" ? (
-                    <div className="amount-plus">
+                    <div className="amount-plus number-font">
                       +£{transaction.amount}
                     </div>
                   ) : (
-                    <div className="amount-minus">
+                    <div className="amount-minus number-font">
                       -£{transaction.amount}
                     </div>
                   )}
