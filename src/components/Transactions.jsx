@@ -6,7 +6,6 @@ import "../assets/styles/Transactions.css";
 import { useFetchTransactionData } from "../utils/fetchTransactionData";
 
 function Transactions() {
-
   const { transactionData, loading } = useFetchTransactionData();
 
   // Define handleDelete function
@@ -17,7 +16,10 @@ function Transactions() {
         throw new Error("User is not authenticated.");
       }
 
-      const transactionRef = doc(collection(db, `users/${user.uid}/transactions`), transactionId);
+      const transactionRef = doc(
+        collection(db, `users/${user.uid}/transactions`),
+        transactionId
+      );
       await deleteDoc(transactionRef);
       // Refresh the page after deletion
       window.location.reload();
@@ -26,59 +28,78 @@ function Transactions() {
     }
   };
 
-  return (
-    <div className="transactions-wrapper">
-      <div className="container-fluid">
-        {loading ? ( // Render spinner if loading state is true
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        ) : transactionData.length === 0 ? (
-          <h2 className="no-transactions">No transactions at the moment</h2>
-        ) : (
-          transactionData.map((transaction) => {
-            const transactionType = TransactionTypes.find(
-              (type) => type.title === transaction.type
-            );
+  // Group transactions by type
+  const groupedTransactions = transactionData.reduce((acc, transaction) => {
+    const type = transaction.type.toLowerCase(); // Convert type to lowercase for consistency
+    if (!acc[type]) {
+      acc[type] = [];
+    }
+    acc[type].push(transaction);
+    return acc;
+  }, {});
 
-            return (
-              <div key={transaction.id} className="row mb-3">
-                <div className="col mb-2 icon-wrap">
-                  <i className={transactionType.icon}></i>
+  return (
+    <>
+      <div className="all-transactions-wrapper">
+        <div className="all-transactions-content">
+          {loading ? (
+            // Render spinner if loading state is true
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : transactionData.length === 0 ? (
+            <h2 className="no-transactions">No transactions at the moment</h2>
+          ) : (
+            Object.entries(groupedTransactions).map(
+              ([type, transactionsOfType]) => (
+                <div key={type} className="transaction-type-section">
+                  <h2 className="transaction-section-title">{type}</h2>
+                  {transactionsOfType.map((transaction) => {
+                    const transactionType = TransactionTypes.find(
+                      (typeObj) => typeObj.title === transaction.type
+                    );
+                    return (
+                      <div
+                        key={transaction.id}
+                        className="all-transaction-item"
+                      >
+                        <div className="mini-icon-wrapper">
+                          <i className={transactionType.icon}></i>
+                        </div>
+                        <div className="all-title-wrapper">
+                          <h6>{transaction.title}</h6>
+                        </div>
+                        <div className="all-transaction-type">
+                          <h6>{transaction.type}</h6>
+                        </div>
+                        <div className="all-price-wrapper">
+                          {transaction.type === "Income" ||
+                          transaction.type === "Savings" ? (
+                            <div className="amount-plus number-font">
+                              +£{transaction.amount.toFixed(2)}
+                            </div>
+                          ) : (
+                            <div className="amount-minus number-font">
+                              -£{transaction.amount.toFixed(2)}
+                            </div>
+                          )}
+                        </div>
+                        <div className="all-button-wrapper">
+                          <i
+                            className="fa-solid fa-trash-can"
+                            onClick={() => handleDelete(transaction.id)}
+                          ></i>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="col mb-2">
-                  <div className="title">{transaction.title}</div>
-                </div>
-                <div className="col mb-2">
-                  <div className="transaction-type">{transaction.type}</div>
-                </div>
-                <div className="col mb-2">
-                  {transaction.type === "Income" ||
-                  transaction.type === "Savings" ? (
-                    <div className="amount-plus number-font">
-                      +£{transaction.amount}
-                    </div>
-                  ) : (
-                    <div className="amount-minus number-font">
-                      -£{transaction.amount}
-                    </div>
-                  )}
-                </div>
-                <div className="col mb-2">
-                  <button
-                    className="btn-sm delete-button"
-                    onClick={() => handleDelete(transaction.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-                <hr />
-              </div>
-            );
-          })
-        )}
+              )
+            )
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

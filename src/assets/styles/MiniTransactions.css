@@ -24,7 +24,7 @@
     color: var(--border-color);
 }
 
-.mini-transaction-item > * {
+.mini-transaction-item>* {
     flex: 1;
     margin-right: 10px;
 }
@@ -41,7 +41,7 @@
 
 .mini-icon-wrapper i {
     font-size: 1.3rem;
-    background-color: #E1F2E9; 
+    background-color: #E1F2E9;
     padding: 15px;
     border-radius: 100%;
     width: 50px;
@@ -55,4 +55,13 @@
 .mini-title-wrapper h6,
 .mini-transaction-type h6 {
     margin-bottom: 0 !important;
+}
+
+@media only screen and (max-width: 670px) {
+    .mini-transaction-item {
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+        gap: 8px;
+    }
 }

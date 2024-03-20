@@ -27,7 +27,7 @@ const Overview = () => {
           ) : (
             <>
               <h1>Welcome back, {fullName && fullName.split(' ')[0]}!</h1>
-              <h1>{currentDate}</h1>
+              <h1 className="overview-date">{currentDate}</h1>
             </>
           )}
         </div>

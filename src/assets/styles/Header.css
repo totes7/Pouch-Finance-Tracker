@@ -83,4 +83,27 @@
   cursor: pointer;
 }
 
+@media only screen and (max-width: 760px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
 
+    .nav-list {
+        padding: 0;
+        gap: 20px;
+    }
+
+    .user-wrapper h2 {
+        display: none
+    }
+
+}
+
+@media only screen and (max-width: 390px) {
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+  }

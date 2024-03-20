@@ -27,7 +27,6 @@ function MiniTransactions() {
 
     return (
         <>
-      
         <div className="mini-transactions-wrapper">
             <div className="mini-transactions-content">
                 {loading ? ( // Render spinner if loading state is true
@@ -56,16 +55,16 @@ function MiniTransactions() {
                                     {transaction.type === "Income" ||
                                         transaction.type === "Savings" ? (
                                         <div className="amount-plus number-font">
-                                            +£{transaction.amount}
+                                            +£{transaction.amount.toFixed(2)}
                                         </div>
                                     ) : (
                                         <div className="amount-minus number-font">
-                                            -£{transaction.amount}
+                                            -£{transaction.amount.toFixed(2)}
                                         </div>
                                     )}
                                 </div>
-                                <div className="mini-button-wrapper" onClick={() => handleDelete(transaction.id)}>
-                                    <i className="fa-solid fa-trash-can"></i>
+                                <div className="mini-button-wrapper" >
+                                    <i className="fa-solid fa-trash-can" onClick={() => handleDelete(transaction.id)}></i>
                                 </div>
                               
                             </div>
@@ -76,7 +75,6 @@ function MiniTransactions() {
         </div>
         </>
     );
-
 }
 
 export default MiniTransactions

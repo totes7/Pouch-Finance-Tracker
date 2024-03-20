@@ -1,50 +1,94 @@
-/* .transactions-wrapper {
+.all-transactions-wrapper {
+  margin: 2rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   min-height: 100vh;
-} */
+}
 
-.container-fluid {
+.transaction-type-section {
+  width: 100%;
   max-width: 1420px;
-  /* border: solid 1px rgba(64, 64, 69, .1); */
-  border-radius: 20px;
-  margin-top: 20px;
-  padding: 20px;
-  width: auto;
-  text-align: center;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.container-fluid hr {
-  width: 90%;
-  height: 2px;
-  margin: 0 auto;
-  background-color: silver;
-  border: solid 1px var(--border-color);
-  border-radius: 20px;
-}
-
-.delete-button {
-  background-color: var(--red-text-color);
-}
-
-.title {
+.transaction-section-title {
+  font-size: 1.3rem;
   text-transform: capitalize;
 }
 
-.icon-wrap i {
-  font-size: xx-large;
+
+.all-transactions-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.all-transaction-item {
+  text-transform: capitalize;
+  border-radius: 20px;
+  background-color: #F8F8F8;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+}
+
+.all-transaction-type {
+  color: var(--border-color);
+}
+
+.all-transaction-item > * {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.all-button-wrapper {
+  cursor: pointer;
+}
+
+.all-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.all-icon-wrapper i {
+  font-size: 1.3rem;
+  background-color: #E1F2E9; 
+  padding: 15px;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+}
+
+.all-button-wrapper {
+  font-size: 1.3rem;
+}
+
+.all-title-wrapper h6,
+.all-transaction-type h6 {
+  margin-bottom: 0 !important;
 }
 
 .amount-plus {
-  color: green;
+  color: #27A744;
 }
 
 .amount-minus {
-  color: red;
+  color: #DC3445;
 }
 
-.no-transactions {
-  width: 100%;
-  font-size: 18px;
-  text-align: center;
-  color: var(--border-color);
+@media only screen and (max-width: 670px) {
+  .all-transaction-item {
+      height: auto;
+      padding: 20px;
+      flex-direction: column;
+      gap: 8px;
+  }
 }

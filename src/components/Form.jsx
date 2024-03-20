@@ -182,7 +182,6 @@ function TransactionForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const emptyFormError = () => toast.error("Form cannot be empty");
-    const successMessage = () => toast.success("Your transaction was successfully added! 🎉");
 
     try {
       const currentUser = auth.currentUser;
@@ -220,7 +219,8 @@ function TransactionForm() {
 
         await addDoc(userTransactionsCollection, transactionData);
 
-        successMessage();
+        // Refresh the page after submission
+        window.location.reload();
         setFormData({
           title: "",
           amount: "",

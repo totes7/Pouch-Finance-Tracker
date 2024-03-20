@@ -48,7 +48,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="animate__animated animate__fadeIn">
+        <div className="important-div animate__animated animate__fadeIn">
           {loggedIn && <Header />} {/* Render Header only when logged in */}
           <Routes>
             {loggedIn ? (

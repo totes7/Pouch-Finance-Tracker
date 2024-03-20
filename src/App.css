@@ -25,3 +25,10 @@
 .read-the-docs {
   color: #888;
 }
+
+
+@media only screen and (max-width: 1420px) {
+  .important-div {
+    margin: 20px;
+  }
+}
