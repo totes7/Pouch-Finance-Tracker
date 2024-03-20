@@ -5,6 +5,7 @@ import { auth, db, storage, collection, addDoc, ref, uploadBytesResumable, getDo
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchTransactionData } from "../utils/fetchTransactionData";
+import useFetchName from "../utils/fetchName";
 
 export function Form() {
   return (
@@ -35,8 +36,17 @@ function CreditCard() {
   const [isCreditCardEditing, setIsCreditCardEditing] = useState(false);
   const [expiryDate, setExpiryDate] = useState("12/24"); // Initial expiry date
   const [isExpiryEditing, setIsExpiryEditing] = useState(false);
-  const [fullName, setFullName] = useState(''); // State to store full name
   const { transactionData } = useFetchTransactionData();
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const { fullName } = useFetchName(auth.currentUser.uid);
+
+  useEffect(() => {
+    const expenses = transactionData
+      .filter((transaction) => transaction.type !== "Income" && transaction.type !== "Savings")
+      .reduce((total, transaction) => total + transaction.amount, 0);
+    setTotalExpenses(expenses);
+  }, [transactionData]);
+
 
   // Calculate savings and income amounts
   const savingsAmount = transactionData
@@ -46,7 +56,7 @@ function CreditCard() {
     .filter((transaction) => transaction.type === "Income")
     .reduce((total, transaction) => total + transaction.amount, 0);
 
-  console.log(incomeAmount, savingsAmount);
+  const totalBalance = incomeAmount - totalExpenses;
 
   const handleCreditCardNumberChange = (event) => {
     setCreditCardNumber(event.target.value);
@@ -72,15 +82,6 @@ function CreditCard() {
   const handleExpiryDateBlur = () => {
     setIsExpiryEditing(false);
   };
-
-  useEffect(() => {
-    // Retrieve fullName from localStorage
-    const storedFullName = localStorage.getItem('fullName');
-    if (storedFullName) {
-      setFullName(storedFullName);
-    }
-  }, [setFullName]); // Added setFullName as a dependency
-
 
 
   return (
@@ -131,7 +132,7 @@ function CreditCard() {
       <div className="account-details">
         <div className="balance">
           <h3>Balance:</h3>
-          <h3 className='number-font'>£{incomeAmount.toFixed(2)}</h3>
+          <h3 className='number-font'>£{totalBalance.toFixed(2)}</h3>
         </div>
         <div className="savings">
           <h3>Savings:</h3>

@@ -3,23 +3,15 @@ import { NavLink } from 'react-router-dom';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import '../assets/styles/Header.css';
 import { Logo, SecondaryLogo } from "./Logo";
-import { auth, doc, db, getDoc } from "../utils/firebaseConfig"; // Import your Firebase authentication instance
+import { auth, doc, db, getDoc } from "../utils/firebaseConfig";
+import useFetchName from "../utils/fetchName";
 
 function Header() {
 
-  const [userName, setUserName] = useState("");
+  const { fullName } = useFetchName(auth.currentUser.uid);
 
-  const getUsers = async () => {
-    try {
-      const usersCollection = doc(db, "users", auth.currentUser.uid);
-      const document = await getDoc(usersCollection);
-      setUserName(document.data().fullName);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
-  getUsers();
+  // Get initials
+  const initials = fullName && fullName.split(' ').map(word => word[0]).join('');
 
   // Function to handle logout
   const handleLogout = async () => {
@@ -30,16 +22,11 @@ function Header() {
     }
   };
 
-
-
-  // Get initials
-  const initials = userName && userName.split(' ').map(word => word[0]).join('');
-
   return (
     <>
       <div className='header-wrapper'>
-        <div className="header">     
-            <SecondaryLogo />
+        <div className="header">
+          <SecondaryLogo />
           <nav className="nav-wrapper">
             <ul className='nav-list'>
               <li className='nav-item'>

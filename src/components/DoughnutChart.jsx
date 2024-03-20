@@ -15,8 +15,6 @@ export function DoughnutChart() {
       .filter((transaction) => transaction.type !== "Income" && transaction.type !== "Savings")
       .reduce((total, transaction) => total + transaction.amount, 0);
     setTotalExpenses(expenses);
-    // Store totalExpenses in localStorage
-    localStorage.setItem("totalExpenses", JSON.stringify(expenses));
   }, [transactionData]);
 
   const aggregateAmountsByType = () => {
