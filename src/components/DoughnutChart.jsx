@@ -59,23 +59,33 @@ export function DoughnutChart() {
       legend: {
         position: 'bottom',
         labels: {
-          boxWidth: 10
-        }
+          boxWidth: 14,
+          boxHeight: 14,
+          font: {
+            size: 14
+          }
+        },
       }
     }
   };
 
   return (
     <>
-      <div className="total-expenses">Total Expenses: £{totalExpenses}</div>
-      <div className="doughnut canvas-container">
-        {loading ? (
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        ) : (
-          <Doughnut options={options} data={chartData} width={200} height={200} />
-        )}
+      <div className="chart-item-wrapper">
+  
+        <div className="total-wrapper">
+          <h6 className="chart-total-title">Total Expenses:</h6>
+          <h6 >£{totalExpenses.toFixed(2)}</h6>
+        </div>
+        <div className="doughnut canvas-container">
+          {loading ? (
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : (
+            <Doughnut options={options} data={chartData} width={200} height={200} />
+          )}
+        </div>
       </div>
     </>
   );

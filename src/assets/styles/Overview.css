@@ -32,17 +32,13 @@
 }
 
 
-.form-wrapper,
-.graphs-wrapper{
+.form-wrapper{
     border-radius: 20px;
     background-color: #F8F8F8;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .form-wrapper {
     width: 30%;
 }
 
-.graphs-wrapper {
-    width: 70% !important;
-}

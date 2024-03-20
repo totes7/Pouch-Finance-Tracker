@@ -1,16 +1,35 @@
-.card {
-    border-radius: 40px;
-
+.graphs-wrapper {
+    width: 100%;
+    border-radius: 20px;
+    background-color: #F8F8F8;
 }
 
-.card-title {
-    color: var(--border-color);
+.graphs-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: 20px;
 }
 
-.card-body {
-    margin: 0px !important;
+.pie-chart-wrapper,
+.doughnut-chart-wrapper {
+    width: 50%;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 1rem;
 }
 
-span {
-    float: right;
+@media only screen and (max-width: 760px) { 
+    .graphs-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .pie-chart-wrapper,
+    .doughnut-chart-wrapper {
+        width: 100%;
+    }
 }
